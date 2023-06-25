@@ -4,8 +4,6 @@ from src.world.field_components.Field import Field
 from src.world.actors.Actor import Actor
 
 
-
-
 class Game:
     def __init__(self,
                  field: Field,

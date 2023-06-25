@@ -1,5 +1,5 @@
 from __future__ import annotations
-from src.world import Cell
+from src.world.field_components import Cell
 
 
 class Actor:
