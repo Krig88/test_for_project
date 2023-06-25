@@ -6,5 +6,5 @@ from dataclasses import dataclass
 class Cell:
     passable: bool = True
     actor: Actor = None
-    position: tuple[int, int] = (0, 0) 
+    #position: tuple[int, int] = (0, 0) 
     
