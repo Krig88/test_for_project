@@ -1,10 +1,10 @@
 from src.world.actors import Actor
-
+from dataclasses import dataclass
+ 
+@dataclass
 
 class Cell:
-    def __init__(self,
-                 passable: bool = True,
-                 actor: Actor = None,
-                 position: tuple[int, int] = (0, 0),
-                 neighbours: dict = None) -> None: 
-        raise NotImplementedError()
+    passable: bool = True
+    actor: Actor = None
+    position: tuple[int, int] = (0, 0) 
+    
