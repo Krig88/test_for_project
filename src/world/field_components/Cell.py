@@ -1,8 +1,8 @@
 from src.world.actors import Actor
 from dataclasses import dataclass
- 
-@dataclass
 
+
+@dataclass
 class Cell:
     passable: bool = True
     actor: Actor = None

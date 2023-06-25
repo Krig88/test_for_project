@@ -8,21 +8,28 @@ class Field:
     def __init__(self, actors: dict[Actor:(int, int)], cells: list[list[Cell]]) -> None:
         self.actors = actors
         self.cells = cells
-    
+
     def move(self, actor: Actor, direction: tuple[int, int]) -> None:
         cur_position = self.actors[actor]
         step_to = (cur_position[0] + direction[0], cur_position[1] + cur_position[1])
 
         # write out-of-bounds check
 
-        if self.cells[step_to[1]][step_to[0]].passable:
-            if self.cells[step_to[1]][step_to[0]].actor:
-                if isinstance(actor, Player):
-                    self.cells[step_to[1]][step_to[0]].actor.interact_with(actor)
-                else:
-                    pass
+        if not self.cells[step_to[0]][step_to[1]].passable:
+            raise Exception
 
-            self.cells[step_to[1]][step_to[0]].actor, self.cells[cur_position[1]][cur_position[0]].actor = actor, None
-            self.actors[actor] = step_to
+        step_to_actor = self.cells[step_to[0]][step_to[1]].actor
 
-        
+        if isinstance(actor, DogCat) ^ isinstance(step_to_actor, DogCat):
+            raise Exception
+
+        if step_to_actor:
+            dog_cat = step_to_actor if isinstance(step_to_actor, DogCat) else actor
+            player = step_to_actor if isinstance(step_to_actor, Player) else actor
+            player.interact_with(dog_cat)
+
+            if actor is dog_cat:
+                return
+
+        step_to_actor, self.cells[cur_position[0]][cur_position[1]].actor = actor, None
+        self.actors[actor] = step_to
