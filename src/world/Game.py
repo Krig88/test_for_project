@@ -1,5 +1,7 @@
+from __future__ import annotations
 from src.world import Cell
 from src.world.actors import Actor
+from src.world import Generator
 
 
 class Game:
