@@ -1,4 +1,4 @@
-from src.world import Cell
+from src.world.field_components import Cell
 from src.world.actors import Actor
 
 

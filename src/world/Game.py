@@ -1,5 +1,4 @@
 from __future__ import annotations
-from src.world.field_components.Cell import Cell
 from src.world.field_components.Field import Field
 from src.world.actors.Actor import Actor
 
