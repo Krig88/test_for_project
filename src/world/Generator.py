@@ -19,7 +19,8 @@ class Generator:
         dc = DogCat()
         self.field.set_actor(dc, (2,2))
         self.actors.append(dc)
-        # return (self.field , self.actors)
+        #TODO create current controllers. replace the actors by there controllers
+
 
     def place_walls(self, count_of_walls: int = 3):
         raise NotADirectoryError
