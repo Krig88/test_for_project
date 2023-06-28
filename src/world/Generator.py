@@ -1,6 +1,7 @@
 from world.field_components.Cell import Cell
 from world.actors.Player import Player
 from world.field_components.Field import Field
+from world.actors.DogCat import DogCat
 
 
 class Generator:
@@ -13,8 +14,11 @@ class Generator:
         self.field.cells[1][1].passable = False
         self.field.cells[3][4].passable = False
         self.field.cells[4][2].passable = False
-
         self.place_player()
+
+        dc = DogCat()
+        self.field.set_actor(dc, (2,2))
+        self.actors.append(dc)
         # return (self.field , self.actors)
 
     def place_walls(self, count_of_walls: int = 3):
