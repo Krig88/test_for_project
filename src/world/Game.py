@@ -1,26 +1,23 @@
 from __future__ import annotations
-from world.field_components.Field import Field
-from world.actors.Actor import Actor
+
 from world.Generator import Generator
-from world.viewers.TestView import TestView 
 from world.controllers.PlayerController import PlayerController
+from world.viewers.ConsoleFieldView import ConsoleFieldView
+from world.viewers.TestView import TestView
+
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, iterations: int) -> None:
         generator = Generator()
         generator.generate()
         self.field = generator.field
         self.actors = generator.actors
+        self.iterations = iterations
 
-#TODO: write game loop
-
-        
-    def start(self):
-        viewer = TestView()
+    def start(self, symbols):
+        viewer = ConsoleFieldView(symbols)
         p_controller = PlayerController(self.field, self.actors[0])
-        while True:
-            viewer.draw(self.field)
+        for i in range(self.iterations):
+            # viewer.draw(self.field)
+            viewer.draw(self.field, self.actors[0])
             p_controller.make_move()
-            
-            
-        
