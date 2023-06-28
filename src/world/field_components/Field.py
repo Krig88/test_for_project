@@ -1,6 +1,8 @@
 from world.actors.Actor import Actor
 from world.actors.Player import Player
-from world.actors.DogCat import DogCat
+from world.actors.Cat import Cat
+from world.actors.Dog import Dog
+
 from .Cell import Cell
 
 
@@ -30,12 +32,12 @@ class Field:
 
         if step_to_actor:
 
-            if not (isinstance(actor, DogCat) ^ isinstance(step_to_actor, DogCat)):
+            if not (not(isinstance(actor, Player)) ^ (not(isinstance(step_to_actor, Player)))):
                 raise Exception
 
             # если один из экторов DogСat он делает  raise Exception
 
-            dog_cat = step_to_actor if isinstance(step_to_actor, DogCat) else actor
+            dog_cat = step_to_actor if not(isinstance(step_to_actor, Player)) else actor
             player = step_to_actor if isinstance(step_to_actor, Player) else actor
             player.interact_with(dog_cat)
 

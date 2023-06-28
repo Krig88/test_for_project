@@ -1,7 +1,9 @@
 from world.field_components.Cell import Cell
 from world.actors.Player import Player
 from world.field_components.Field import Field
-from world.actors.DogCat import DogCat
+from world.actors.Dog import Dog
+from world.actors.Cat import Cat
+
 
 
 class Generator:
@@ -16,9 +18,13 @@ class Generator:
         self.field.cells[4][2].passable = False
         self.place_player()
 
-        dc = DogCat()
-        self.field.set_actor(dc, (2,2))
-        self.actors.append(dc)
+        dog = Dog()
+        cat = Cat()
+        self.field.set_actor(cat, (2,2))
+        self.actors.append(cat)
+        self.field.set_actor(dog, (2, 3))
+        self.actors.append(dog)
+
         #TODO create current controllers. replace the actors by there controllers
 
 

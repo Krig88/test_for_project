@@ -17,12 +17,15 @@ class Game:
 #TODO replace the actors by there controllers
 
     def start(self, symbols):
-        #viewer = TestView(symbols)
-        viewer = ConsoleFieldView(symbols)
+        viewer = TestView(symbols)
+        #viewer = ConsoleFieldView(symbols)
         p_controller = PlayerController(self.field, self.actors[0])
-        n_controller = NpcController(self.field, self.actors[1])
+        cat_controller = NpcController(self.field, self.actors[1])
+        dog_controller = NpcController(self.field, self.actors[2])
+
         for i in range(self.iterations):
-            #viewer.draw(self.field)
-            viewer.draw(self.field, self.actors[0])
+            viewer.draw(self.field)
+            #viewer.draw(self.field, self.actors[0])
             p_controller.make_move()
-            n_controller.make_move()
+            cat_controller.make_move()
+            dog_controller.make_move()
