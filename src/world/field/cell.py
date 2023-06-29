@@ -3,8 +3,10 @@ from dataclasses import dataclass
 from world.actors.actor import Actor
 
 
-@dataclass
 class Cell:
-    passable: bool = True
-    symbol: chr = "." if passable else "#"
-    actor: Actor = None
+    def __init__(self, passable: bool = True, symbol: chr = ".", actor: Actor = None):
+        self.passable = passable
+        self.symbol = "." if passable else "#"
+        self.actor = actor
+
+    # TODO: passable property

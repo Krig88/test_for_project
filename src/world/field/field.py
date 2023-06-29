@@ -35,6 +35,8 @@ class Field:
         try:
             destination = (position[0] + direction[0], position[1] + direction[1])
             destination_cell = self.get_cell_at(destination)
+            if not destination_cell.passable:
+                return
             if destination_cell.actor is not None:
                 try:
                     destination_cell.actor.interact_with(actor)
