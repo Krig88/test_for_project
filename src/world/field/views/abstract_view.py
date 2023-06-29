@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from world.coordinates import Coordinates
 from world.field.field import Field
 
 
@@ -8,12 +8,12 @@ class AbstractView(ABC):
         self.field = field
 
     @abstractmethod
-    def get_view(self, coordinates: tuple[int, int]) -> str:
+    def get_view(self, coordinates: Coordinates) -> str:
         raise NotImplemented
 
-    def get_cell_char(self, coordinates: tuple[int, int]):
+    def get_cell_char(self, coordinates: Coordinates):
         try:
-            cell = self.field.cells[coordinates[0]][coordinates[1]]
+            cell = self.field.cells[coordinates.x][coordinates.y]
             if cell.actor is None:
                 return cell.symbol
             return cell.actor.symbol
