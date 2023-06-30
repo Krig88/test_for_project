@@ -12,15 +12,16 @@ from world.coordinates import Coordinates
 if __name__ == "__main__":
     print("Demo")
     for _ in range(1):
-        fg = FieldGenerator(Coordinates(4, 3)) #(first - x, second -y)
+        fg = FieldGenerator(Coordinates(1, 5)) #(first - x, second -y)
         field = fg.get_field()
         view = FullFieldView(field)
         player, cat, dog = Player(), Cat(), Dog()
-        field.place_actor(player, Coordinates(1, 1))
-        field.place_actor(cat, Coordinates(0, 0))
-        field.place_actor(dog, Coordinates(2, 2))
-        field.cells[1][0] = Cell(False, "#")
-        field.cells[1][2] = Cell(False, "#")
+        field.place_actor(player, Coordinates(0, 0))
+        field.place_actor(cat, Coordinates(2, 0))
+        field.place_actor(dog, Coordinates(3, 0))
+        field.place_wall(Coordinates(4, 0))
+        #field.cells[1][0] = Cell(False, "#")
+        #field.cells[1][2] = Cell(False, "#")
         controllers = [KeyboardController(field, player), RandomController(field, cat), RandomController(field, dog)]
         game = Game(field, controllers)
         game.start(10)

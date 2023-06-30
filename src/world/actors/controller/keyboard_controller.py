@@ -10,10 +10,9 @@ class KeyboardController(AbstractController):
         super().__init__(field, actor, is8)
 
     def make_decision(self) -> Coordinates:
-        view = FowFieldOfView(self.field)
-        #view = FullFieldView(self.field)
-        actors_cords_tuple = self.field.actors[self.actor]
-        print(view.get_view(Coordinates(actors_cords_tuple[0], actors_cords_tuple[1])))
+        #view = FowFieldOfView(self.field)
+        view = FullFieldView(self.field)
+        print(view.get_view(self.field.actors[self.actor]))
         while 1:
             pre_result = list(map(int, input().split()))
             result = Coordinates(pre_result[0], pre_result[1])

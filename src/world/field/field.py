@@ -1,11 +1,13 @@
 from world.actors.actor import Actor
+from world.actors.player import Player
 from world.field.cell import Cell
 from world.coordinates import Coordinates
+import random
 
 
 class Field:
     # TODO: rewrite with overflow_function
-    def __init__(self, cells: list[list[Cell]], is8: bool = False, overflow_function=None):
+    def __init__(self, cells: list[list[Cell]], is8: bool = False, overflow_function=None) -> None:
         self.cells = cells
         self.size = Coordinates(len(cells), len(cells[0]))
         self._is8 = is8
@@ -24,44 +26,18 @@ class Field:
         if cell.actor is not None:
             raise ValueError(f"cell at {coordinates} has actor!")
         cell.actor = actor
-        self.actors[actor] = (coordinates.x, coordinates.y)
+        self.actors[actor] = coordinates
 
-    def move_actor(self, actor: Actor, direction: Coordinates) -> None:
-        if actor not in self.actors:
-            raise ValueError(f"this actor {actor} marked as {actor.symbol} not at Field")
-        if self.actors[actor] is None:
-            return
-        position = Coordinates(self.actors[actor][0], self.actors[actor][1])
-        position_cell = self.get_cell_at(position)
-        try:
-            destination = position + direction
-            destination_cell = self.get_cell_at(destination)
-            if not destination_cell.passable:
-                return
-            if destination_cell.actor is not None:
-                try:
-                    destination_cell.actor.interact_with(actor)
-                    self.actors[destination_cell.actor] = None
-                    destination_cell.actor = actor
-                except ValueError:
-                    position_cell.actor.interact_with(destination_cell.actor)
-                    self.actors[position_cell.actor] = None
-                    position_cell.actor = None
-                    return
-                except NotImplementedError:
-                    return
-                # except ValueError:
-                #     return
-                # call respawn?
-            destination_cell.actor = actor
-            position_cell.actor = None
-            self.actors[actor] = (destination.x, destination.y)
-        except IndexError:
-            ...
-            # print(f"IndexError({actor.symbol}) at {self.actors[actor]} {direction}")
-
+    def place_wall(self, coordinates: Coordinates) -> None:
+        cell = self.cells[coordinates.x][coordinates.y]
+        if cell.passable and (not cell.actor):
+            cell.passable, cell.symbol = False, '#'
+        else:
+            raise Exception
     def get_cell_at(self, coordinates: Coordinates) -> Cell:
         if 0 <= coordinates.x < self.size.x and 0 <= coordinates.y < self.size.y:
             return self.cells[coordinates.x][coordinates.y]
         # TODO: rewrite with overflow_function
         raise IndexError
+
+
