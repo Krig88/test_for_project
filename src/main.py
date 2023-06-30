@@ -12,7 +12,7 @@ from world.coordinates import Coordinates
 if __name__ == "__main__":
     print("Demo")
     for _ in range(1):
-        fg = FieldGenerator(Coordinates(1, 3)) #(first - x, second -y)
+        fg = FieldGenerator(Coordinates(1, 2)) #(first - x, second -y)
         field = fg.get_field()
         view = FullFieldView(field)
         player, cat, dog = Player(), Cat(), Dog()

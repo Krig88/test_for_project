@@ -42,7 +42,7 @@ class Field:
 
     def is_clear(self, coordinates: Coordinates) -> bool:
         cell = self.get_cell_at(coordinates)
-        if cell.passable and (not cell.actor):
+        if cell.passable and (cell.actor is None):
             return True
         else:
             return False
