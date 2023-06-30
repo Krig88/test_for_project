@@ -20,7 +20,7 @@ class Field:
         return abs(src.x - to.x) + abs(src.y - to.y)
 
     def place_actor(self, actor: Actor, coordinates: Coordinates) -> None:
-        if actor in self.actors:
+        if actor in self.actors and self.actors[actor]:
             raise ValueError(f"actor already on board")
         cell = self.cells[coordinates.x][coordinates.y]
         if cell.actor is not None:
@@ -40,4 +40,10 @@ class Field:
         # TODO: rewrite with overflow_function
         raise IndexError
 
+    def is_clear(self, coordinates: Coordinates) -> bool:
+        cell = self.get_cell_at(coordinates)
+        if cell.passable and (not cell.actor):
+            return True
+        else:
+            return False
 
