@@ -8,5 +8,3 @@ class Cell:
         self.passable = passable
         self.symbol = "." if passable else "#"
         self.actor = actor
-
-    # TODO: passable property

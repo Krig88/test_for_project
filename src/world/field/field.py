@@ -2,17 +2,14 @@ from world.actors.actor import Actor
 from world.actors.player import Player
 from world.field.cell import Cell
 from world.coordinates import Coordinates
-import random
 
 
 class Field:
-    # TODO: rewrite with overflow_function
-    def __init__(self, cells: list[list[Cell]], is8: bool = False, overflow_function=None) -> None:
+    def __init__(self, cells: list[list[Cell]], is8: bool = False) -> None:
         self.cells = cells
         self.size = Coordinates(len(cells), len(cells[0]))
         self._is8 = is8
         self.actors = dict()
-        self.overflow_function = overflow_function
 
     def dist(self, src: Coordinates, to: Coordinates) -> int:
         if self._is8:
@@ -34,10 +31,10 @@ class Field:
             cell.passable, cell.symbol = False, '#'
         else:
             raise Exception
+
     def get_cell_at(self, coordinates: Coordinates) -> Cell:
         if 0 <= coordinates.x < self.size.x and 0 <= coordinates.y < self.size.y:
             return self.cells[coordinates.x][coordinates.y]
-        # TODO: rewrite with overflow_function
         raise IndexError
 
     def is_clear(self, coordinates: Coordinates) -> bool:
@@ -46,4 +43,3 @@ class Field:
             return True
         else:
             return False
-

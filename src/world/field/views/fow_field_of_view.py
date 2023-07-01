@@ -2,6 +2,7 @@ from world.field.field import Field
 from world.field.views.abstract_view import AbstractView
 from world.coordinates import Coordinates
 
+
 class FowFieldOfView(AbstractView):
     def __init__(self, field: Field) -> None:
         super().__init__(field)
@@ -12,7 +13,6 @@ class FowFieldOfView(AbstractView):
             raise ValueError(f"No actor at coordinates {coordinates.x, coordinates.y}")
         fow = actor.distance_of_view
 
-        # TODO: Move this to Field till @HERE
         h_min = coordinates.x - fow
         h_min = h_min if h_min >= 0 else 0
         h_max = coordinates.x + fow
@@ -27,7 +27,6 @@ class FowFieldOfView(AbstractView):
 
         for i in range(len(cells)):
             cells[i] = cells[i][w_min: w_max + 1]
-        # TODO: till HERE
 
         result = [[" " for _ in range(len(cells[0]))] for _ in range(len(cells))]
 
