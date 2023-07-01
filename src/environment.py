@@ -4,6 +4,7 @@ from world.field.field import Field
 
 
 # topology_function(coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]
+
 class Environment:
     def __init__(self, field: Field, connectedness, topology_function=None) -> None:
         self.field = field
@@ -36,26 +37,45 @@ class Environment:
 
     def is_move_valid(self, actor: Actor, position: Coordinates, direction: Coordinates) -> bool:
         """check is move valid taking into account topology function and registered area"""
+        if actor not in self.field.actors or self.field.actors[actor] is None:
+            raise ValueError(f"this actor {actor} marked as {actor.symbol} not at Field")
         if direction not in self.directions:
             return False
-        if position.x not in (0, self.field.size.x) and position.y not in (0, self.field.size.y):
+        if position.x not in (0, self.field.size.x-1) and position.y not in (0, self.field.size.y-1):
             # what to do if more special cells?
-            return self.is_in_area(type(actor), position + direction)
-        topology_valid, cell = self.topology_function(position, direction)
+            return self.is_in_area(type(actor), position + direction) \
+                and self.field.get_cell_at(position + direction).passable
+        topology_valid, cell = self.topology_function(self, position, direction)
         if not topology_valid:
             return False
-        return self.is_in_area(type(actor), cell)
+        return self.is_in_area(type(actor), position + direction) \
+            and self.field.get_cell_at(position + direction).passable
 
     def get_near_cells(self, coordinates: Coordinates) -> list[Coordinates]:
         """return tuple of near cells taking into account topology function and connectedness"""
         near_cells = []
         is_special = False
-        if coordinates.x in (0, self.field.size.x) and coordinates.y in (0, self.field.size.y):
+        if coordinates.x in (0, self.field.size.x-1) and coordinates.y in (0, self.field.size.y-1):
             is_special = True
         for direction in self.directions:
             if is_special:
-                topology_valid, cell = self.topology_function(coordinates, direction)
+                topology_valid, cell = self.topology_function(self, coordinates, direction)
                 if not topology_valid:
                     continue
             near_cells.append(coordinates + direction)
         return near_cells
+
+
+def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
+    if coordinates.x not in (0, env.field.size.x) and coordinates.y not in (0, env.field.size.y):
+        return True if direction in env.directions else False, coordinates + direction
+    result = True
+    if coordinates.x == 0 and direction == Coordinates(-1, 0):
+        result = False
+    if coordinates.x == env.field.size.x-1 and direction == Coordinates(1, 0):
+        result = False
+    if coordinates.y == 0 and direction == Coordinates(0, -1):
+        result = False
+    if coordinates.y == env.field.size.y - 1 and direction == Coordinates(0, 1):
+        result = False
+    return result, coordinates + direction

@@ -8,3 +8,10 @@ class Coordinates:
 
     def __sub__(self, other):
         return Coordinates(self.x - other.x, self.y - other.y)
+
+    def __eq__(self, other):
+        return self.y == other.y and self.x == other.x
+
+    def __hash__(self):
+        # TODO: Write hash thunder method
+        return self.x + self.y

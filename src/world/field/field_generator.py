@@ -8,7 +8,6 @@ class FieldGenerator:
         self.field_size = field_size
         self.field = Field([[Cell() for _ in range(field_size.x)] for _ in range(field_size.y)])
 
-
     def apply_rules(self, rules: tuple, arguments: tuple[tuple | None]) -> None:
         for rule, args in zip(rules, arguments):
             if args is None:
