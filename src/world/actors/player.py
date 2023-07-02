@@ -1,3 +1,5 @@
+import logging
+
 from world.actors.actor import Actor
 
 
@@ -8,4 +10,5 @@ class Player(Actor):
         self.score = score
 
     def interact_with(self, actor: Actor) -> None:
+        logging.debug("Player cannot interact with %s", actor.__class__)
         raise ValueError(f"Player can't interact with {actor.__class__}")

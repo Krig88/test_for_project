@@ -1,3 +1,5 @@
+import logging
+
 from environment import Environment, tf
 from world.actors.cat import Cat
 from world.actors.dog import Dog
@@ -12,6 +14,7 @@ from world.actors.controller.magent_controller import MAgentController
 from world.coordinates import Coordinates
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, filename='app.log', filemode='w')
     m = {Coordinates(0, 0): 1}
     print(m[Coordinates(0, 0)])
     print("Demo")

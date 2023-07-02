@@ -4,14 +4,15 @@ from world.field.field import Field
 from world.field.views.fow_field_of_view import FowFieldOfView
 from world.field.views.full_field_view import FullFieldView
 from world.coordinates import Coordinates
-from environment import  Environment
+from environment import Environment
+
 
 class KeyboardController(AbstractController):
     def __init__(self, field: Field, actors: list[Actor], is8=False, env: Environment = None):
         super().__init__(field, actors, is8)
 
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
-        #view = FowFieldOfView(self.field)
+        # view = FowFieldOfView(self.field)
         view = FullFieldView(self.field)
         results = []
 

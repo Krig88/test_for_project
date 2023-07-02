@@ -4,6 +4,7 @@ from world.actors.actor import Actor
 from world.field.field import Field
 from world.coordinates import Coordinates
 
+
 class AbstractController(ABC):
     def __init__(self, field: Field, actors: list[Actor], is8=False, env: Environment = None):
         self.field = field
