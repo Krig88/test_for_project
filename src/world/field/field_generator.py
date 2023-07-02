@@ -1,3 +1,5 @@
+import logging
+
 from world.field.cell import Cell
 from world.field.field import Field
 from world.coordinates import Coordinates
@@ -5,6 +7,7 @@ from world.coordinates import Coordinates
 
 class FieldGenerator:
     def __init__(self, field_size: Coordinates) -> None:
+        logging.debug("field initialized with %s size", field_size)
         self.field_size = field_size
         self.field = Field([[Cell() for _ in range(field_size.y)] for _ in range(field_size.x)])
 
@@ -16,9 +19,10 @@ class FieldGenerator:
             rule(self.field, *args)
 
     def reset_field(self, field_size: Coordinates = None) -> None:
+        logging.info("field reset", field_size)
         if field_size is None:
             field_size = self.field_size
-        self.field = Field([[Cell() for _ in range(field_size.x)] for _ in range(field_size.y)])
+        self.field = Field([[Cell() for _ in range(field_size.y)] for _ in range(field_size.x)])
 
     def get_field(self) -> Field:
         return self.field

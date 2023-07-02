@@ -17,4 +17,4 @@ class Coordinates:
         return self.x + self.y
 
     def __str__(self):
-        return f"{self.x = } {self.y =}\t"
+        return f"x = {self.x} y = {self.y}\t"

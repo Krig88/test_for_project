@@ -13,7 +13,6 @@ class KeyboardController(AbstractController):
     def make_decision(self) -> Coordinates:
         # view = FowFieldOfView(self.field)
         view = FullFieldView(self.field)
-        print(self.actor.score)
         print(view.get_view(self.field.actors[self.actor]))
         while 1:
             pre_result = list(map(int, input().split()))

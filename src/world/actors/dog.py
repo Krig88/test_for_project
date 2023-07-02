@@ -1,3 +1,5 @@
+import logging
+
 from world.actors.actor import Actor
 from world.actors.player import Player
 
@@ -10,5 +12,6 @@ class Dog(Actor):
 
     def interact_with(self, actor: Actor) -> None:
         if not isinstance(actor, Player):
-            raise NotImplementedError(f"Dog cannot interact with {actor.__class__}")
+            logging.debug("Dog cannot interact with %s", actor.__class__)
+            raise ValueError(f"Dog cannot interact with {actor.__class__}")
         actor.score -= self.score_penalty

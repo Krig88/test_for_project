@@ -1,3 +1,4 @@
+import logging
 import random
 
 from environment import Environment
@@ -18,6 +19,7 @@ class ActorMover:
         position = self.field.actors[actor]
         position_cell = self.field.get_cell_at(position)
         if not self.env.is_move_valid(actor, position, direction):
+            logging.debug("move from %s with direction %s is not valid", position, direction)
             return
         _, destination = self.env.topology_function(self.env, position, direction)
         destination_cell = self.field.get_cell_at(destination)
@@ -27,11 +29,13 @@ class ActorMover:
                 destination_cell.actor.interact_with(position_cell.actor)
                 self.field.actors[destination_cell.actor] = None
                 eaten_actor = destination_cell.actor
-            except:
+                logging.info("actor %s interacted with %s", actor, destination_cell.actor)
+            except ValueError as ve:
                 return
         destination_cell.actor = actor
         position_cell.actor = None
         self.field.actors[actor] = destination
+        logging.info("actor %s moved from %s to %s", actor, position, destination)
         self.random_respawn(eaten_actor)
 
     def random_respawn(self, actor: Actor) -> None:
@@ -42,6 +46,6 @@ class ActorMover:
             for j in range(0, self.field.size.x):
                 if self.field.is_clear(Coordinates(j, i)) and self.env.is_in_area(type(actor), Coordinates(j, i)):
                     clear_cells.append(Coordinates(j, i))
-
         cell_cords = clear_cells[random.randint(0, len(clear_cells) - 1)]
         self.field.place_actor(actor, cell_cords)
+        logging.info("actor %s respawned at %s", actor, cell_cords)
