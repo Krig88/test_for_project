@@ -11,7 +11,7 @@ class Environment:
         self.areas = {}
         self.connectedness = connectedness
         self.topology_function = topology_function
-        self.directions = [Coordinates(0, 1), Coordinates(1, 0), Coordinates(-1, 0), Coordinates(0, -1)]
+        self.directions = [Coordinates(0, 1), Coordinates(0, -1), Coordinates(1, 0), Coordinates(-1, 0)]
 
     def register_area(self, actor_type: type, area: tuple[Coordinates, Coordinates], set_to: bool = True) -> None:
         """edit area for actor_type on field.\n
@@ -53,10 +53,11 @@ class Environment:
 
     def get_near_cells(self, coordinates: Coordinates) -> list[Coordinates]:
         """return tuple of near cells taking into account topology function and connectedness"""
-        near_cells = []
+        near_cells = [None, None, None, None]
         is_special = False
         if coordinates.x in (0, self.field.size.x-1) and coordinates.y in (0, self.field.size.y-1):
             is_special = True
+        '''
         for direction in self.directions:
             if is_special:
                 topology_valid, cell = self.topology_function(self, coordinates, direction)
@@ -64,7 +65,18 @@ class Environment:
                     continue
             near_cells.append(coordinates + direction)
         return near_cells
+        '''
 
+        for i in range(0, len(self.directions)):
+            direction = self.directions[i]
+
+            if is_special:
+                topology_valid, cell = self.topology_function(self, coordinates, direction)
+                if not topology_valid:
+                    continue
+
+            near_cells[i] = coordinates + direction
+        return near_cells
 
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
     if coordinates.x not in (0, env.field.size.x) and coordinates.y not in (0, env.field.size.y):

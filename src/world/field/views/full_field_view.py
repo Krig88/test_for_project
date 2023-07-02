@@ -1,6 +1,7 @@
 from world.field.field import Field
 from world.field.views.abstract_view import AbstractView
 from world.coordinates import Coordinates
+from  environment import  Environment
 
 
 class FullFieldView(AbstractView):
