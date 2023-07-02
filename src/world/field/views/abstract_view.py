@@ -11,11 +11,3 @@ class AbstractView(ABC):
     def get_view(self, coordinates: Coordinates) -> str:
         raise NotImplemented
 
-    def get_cell_char(self, coordinates: Coordinates):
-        try:
-            cell = self.field.cells[coordinates.x][coordinates.y]
-            if cell.actor is None:
-                return cell.symbol
-            return cell.actor.symbol
-        except IndexError:
-            return " "

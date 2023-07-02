@@ -21,5 +21,5 @@ class RandomController(AbstractController):
                     if h == 0:
                         h = -1
                 results.append((actor, Coordinates(v, h)))
-            results.append((actor, (random.randint(-1, 1), random.randint(-1, 1))))
+            results.append((actor, Coordinates(random.randint(-1, 1), random.randint(-1, 1))))
         return results

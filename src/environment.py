@@ -36,9 +36,10 @@ class Environment:
         return self.areas[actor_type][coordinates.y][coordinates.x]
 
     def is_move_valid(self, actor: Actor, position: Coordinates, direction: Coordinates) -> bool:
+        print(direction)
         """check is move valid taking into account topology function and registered area"""
         if actor not in self.field.actors or self.field.actors[actor] is None:
-            raise ValueError(f"this actor {actor} marked as {actor.symbol} not at Field")
+            raise ValueError(f"this actor {actor} marked as {actor} not at Field")
         if direction not in self.directions:
             return False
         if position.x not in (0, self.field.size.x - 1) and position.y not in (0, self.field.size.y - 1):

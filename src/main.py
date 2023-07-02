@@ -33,9 +33,8 @@ if __name__ == "__main__":
     # field.place_wall(Coordinates(4, 0))
     # field.cells[1][0] = Cell(False, "#")
     # field.cells[1][2] = Cell(False, "#")
-    controller = KeyboardController(field, [player, player1])
 
-    game = Game(field, [controller], env)
+    game = Game(field, [KeyboardController(field, [player, player1]), RandomController(field, [cat])], env)
     game.start(10000)
 
     # for _ in range(1):

@@ -25,7 +25,7 @@ class Field:
     def place_wall(self, coordinates: Coordinates) -> None:
         cell = self.cells[coordinates.x][coordinates.y]
         if cell.passable and (not cell.actor):
-            cell.passable, cell.symbol = False, '#'
+            cell.passable = False
         logging.error("Index Error trying to place wall at %s", coordinates)
         raise IndexError
 
