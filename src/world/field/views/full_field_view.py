@@ -8,6 +8,6 @@ class FullFieldView(AbstractView):
     def __init__(self, field: Field) -> None:
         super().__init__(field)
 
-    def get_view(self, coordinates: Coordinates) -> str:
+    def get_view(self, coordinates: Coordinates = None) -> str:
         result = [[self.get_cell_char(Coordinates(i, j)) for j in range(self.field.size.y)] for i in range(self.field.size.x)]
         return "\n".join(["".join(result[i]) for i in range(self.field.size.x)])

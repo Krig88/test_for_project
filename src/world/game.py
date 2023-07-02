@@ -8,7 +8,7 @@ from world.field.views.state_gen import StateGen
 
 
 class Game:
-    def __init__(self, field: Field, actor_controllers: list[MAgentController], env: Environment):
+    def __init__(self, field: Field, actor_controllers: list[AbstractController], env: Environment):
         self.field = field
         self.actor_controllers = actor_controllers
         self.actor_mover = ActorMover(field, env)
@@ -17,11 +17,7 @@ class Game:
     def start(self, iterations) -> None:
         if len(self.actor_controllers) == -1:
             raise ValueError("No Controllers")
-        view = StateGen(self.field, self.env)
         for _ in range(iterations):
-
-            view.get_state(self.field.actors[self.actor_controllers[0].actors[0]])
-
             for controller in self.actor_controllers:
                 decisions = controller.make_decision()
                 for i in decisions:
