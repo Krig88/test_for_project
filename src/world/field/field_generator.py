@@ -6,7 +6,7 @@ from world.coordinates import Coordinates
 class FieldGenerator:
     def __init__(self, field_size: Coordinates) -> None:
         self.field_size = field_size
-        self.field = Field([[Cell() for _ in range(field_size.x)] for _ in range(field_size.y)])
+        self.field = Field([[Cell() for _ in range(field_size.y)] for _ in range(field_size.x)])
 
     def apply_rules(self, rules: tuple, arguments: tuple[tuple | None]) -> None:
         for rule, args in zip(rules, arguments):

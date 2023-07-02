@@ -5,6 +5,7 @@ from world.field.views.fow_field_of_view import FowFieldOfView
 from world.field.views.full_field_view import FullFieldView
 from world.coordinates import Coordinates
 
+
 class KeyboardController(AbstractController):
     def __init__(self, field: Field, actor: Actor, is8=False):
         super().__init__(field, actor, is8)

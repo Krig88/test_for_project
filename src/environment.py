@@ -41,7 +41,7 @@ class Environment:
             raise ValueError(f"this actor {actor} marked as {actor.symbol} not at Field")
         if direction not in self.directions:
             return False
-        if position.x not in (0, self.field.size.x-1) and position.y not in (0, self.field.size.y-1):
+        if position.x not in (0, self.field.size.x - 1) and position.y not in (0, self.field.size.y - 1):
             # what to do if more special cells?
             return self.is_in_area(type(actor), position + direction) \
                 and self.field.get_cell_at(position + direction).passable
@@ -51,40 +51,29 @@ class Environment:
         return self.is_in_area(type(actor), position + direction) \
             and self.field.get_cell_at(position + direction).passable
 
-    def get_near_cells(self, coordinates: Coordinates) -> list[Coordinates]:
+    def get_near_cells(self, coordinates: Coordinates) -> list[Coordinates | None]:
         """return tuple of near cells taking into account topology function and connectedness"""
-        near_cells = [None, None, None, None]
+        near_cells = [None for _ in range(len(self.directions))]
         is_special = False
-        if coordinates.x in (0, self.field.size.x-1) and coordinates.y in (0, self.field.size.y-1):
+        if coordinates.x in (0, self.field.size.x - 1) or coordinates.y in (0, self.field.size.y - 1):
             is_special = True
-        '''
-        for direction in self.directions:
-            if is_special:
-                topology_valid, cell = self.topology_function(self, coordinates, direction)
-                if not topology_valid:
-                    continue
-            near_cells.append(coordinates + direction)
-        return near_cells
-        '''
-
         for i in range(0, len(self.directions)):
             direction = self.directions[i]
-
             if is_special:
                 topology_valid, cell = self.topology_function(self, coordinates, direction)
                 if not topology_valid:
                     continue
-
             near_cells[i] = coordinates + direction
         return near_cells
 
+
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
-    if coordinates.x not in (0, env.field.size.x) and coordinates.y not in (0, env.field.size.y):
+    if coordinates.x not in (0, env.field.size.x-1) and coordinates.y not in (0, env.field.size.y-1):
         return True if direction in env.directions else False, coordinates + direction
     result = True
     if coordinates.x == 0 and direction == Coordinates(-1, 0):
         result = False
-    if coordinates.x == env.field.size.x-1 and direction == Coordinates(1, 0):
+    if coordinates.x == env.field.size.x - 1 and direction == Coordinates(1, 0):
         result = False
     if coordinates.y == 0 and direction == Coordinates(0, -1):
         result = False

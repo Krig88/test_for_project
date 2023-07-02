@@ -6,18 +6,17 @@ from world.actors.cat import Cat
 from world.actors.dog import Dog
 
 
-
 class StateGen:
 
     def __init__(self, field: Field, env: Environment = None) -> None:
         self.field = field
         self.env = env
 
-    def get_state(self, coordinates: Coordinates):
-
-        state = [[None] * 3 for _ in range(4)]
+    def get_state(self, coordinates: Coordinates) -> list[list[int]]:
+        state = [[0 for _ in range(3)] for _ in range(4)]
         near_cells = self.env.get_near_cells(coordinates)
-        print(near_cells)
+        print(state)
+        print(*near_cells)
         for i in range(0, len(near_cells)):
             if near_cells[i] is None:
                 state[i][0] = 1
@@ -33,5 +32,5 @@ class StateGen:
                 if isinstance(cell.actor, Cat):
                     state[i][2] = 1
                     continue
+        print(state)
         return state
-

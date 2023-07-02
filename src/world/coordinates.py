@@ -15,3 +15,6 @@ class Coordinates:
     def __hash__(self):
         # TODO: Write hash thunder method
         return self.x + self.y
+
+    def __str__(self):
+        return f"{self.x = } {self.y =}\t"

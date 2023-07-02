@@ -35,6 +35,7 @@ class Field:
     def get_cell_at(self, coordinates: Coordinates) -> Cell:
         if 0 <= coordinates.x < self.size.x and 0 <= coordinates.y < self.size.y:
             return self.cells[coordinates.x][coordinates.y]
+        print("indexerr", coordinates)
         raise IndexError
 
     def is_clear(self, coordinates: Coordinates) -> bool:
