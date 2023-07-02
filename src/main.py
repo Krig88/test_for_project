@@ -21,16 +21,16 @@ if __name__ == "__main__":
     env = Environment(field, None, tf)
 
     view = FullFieldView(field)
-    player, cat, dog = Player(), None, None  # , Cat(), Dog()  # , player2 Player(),
-    field.place_actor(player, Coordinates(1, 1))
+    player, cat, dog = Player(), Cat(), Dog()  # , player2 Player(),
+    field.place_actor(player, Coordinates(0, 2))
     # field.place_actor(player2, Coordinates(0, 1))
-    # field.place_actor(cat, Coordinates(1, 0))
-    # field.place_actor(dog, Coordinates(0, 1))
-    # field.place_actor(dog, Coordinates(3, 0))
+    field.place_actor(cat, Coordinates(0, 0))
+    field.place_actor(dog, Coordinates(0, 1))
     # field.place_wall(Coordinates(4, 0))
     # field.cells[1][0] = Cell(False, "#")
     # field.cells[1][2] = Cell(False, "#")
-    controllers = [MAgentController(KeyboardController, field, [player])]  # , MAgentController(RandomController, field, [cat, dog])]
+    controllers = [MAgentController(KeyboardController, field, [player]), MAgentController(RandomController, field,
+                                                                                           [cat, dog])]
     # a_controllers =
     game = Game(field, controllers, env)
     game.start(10000)

@@ -11,7 +11,7 @@ class KeyboardController(AbstractController):
         super().__init__(field, actor, is8)
 
     def make_decision(self) -> Coordinates:
-        #view = FowFieldOfView(self.field)
+        # view = FowFieldOfView(self.field)
         view = FullFieldView(self.field)
         print(self.actor.score)
         print(view.get_view(self.field.actors[self.actor]))

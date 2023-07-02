@@ -23,9 +23,12 @@ class ActorMover:
         destination_cell = self.field.get_cell_at(destination)
         eaten_actor = None
         if destination_cell.actor is not None:
-            destination_cell.actor.interact_with(position_cell.actor)
-            self.field.actors[destination_cell.actor] = None
-            eaten_actor = destination_cell.actor
+            try:
+                destination_cell.actor.interact_with(position_cell.actor)
+                self.field.actors[destination_cell.actor] = None
+                eaten_actor = destination_cell.actor
+            except:
+                return
         destination_cell.actor = actor
         position_cell.actor = None
         self.field.actors[actor] = destination
