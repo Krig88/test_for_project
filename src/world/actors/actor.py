@@ -9,6 +9,3 @@ class Actor(ABC):
         self.distance_of_view = distance_of_view
 
 
-    @abstractmethod
-    def interact_with(self, actor: Actor) -> None:
-        raise NotImplemented

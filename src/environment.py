@@ -1,6 +1,8 @@
 from world.actors.actor import Actor
 from world.coordinates import Coordinates
 from world.field.field import Field
+from world.actors.cat import Cat
+from world.actors.dog import Dog
 
 
 # topology_function(coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]
@@ -67,6 +69,18 @@ class Environment:
             near_cells[i] = coordinates + direction
         return near_cells
 
+    def actors_interact(self, interacting_actor: Actor, actor: Actor):
+        print("interacting")
+        print(interacting_actor, actor)
+
+        if type(interacting_actor) == Cat:
+            actor.score += 1
+            return
+        if type(interacting_actor) == Dog:
+            actor.score -= 1
+            return
+
+        raise ValueError
 
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
     if coordinates.x not in (0, env.field.size.x-1) and coordinates.y not in (0, env.field.size.y-1):

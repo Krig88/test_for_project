@@ -9,6 +9,3 @@ class Player(Actor):
         self.distance_of_view = distance_of_view
         self.score = score
 
-    def interact_with(self, actor: Actor) -> None:
-        logging.debug("Player cannot interact with %s", actor.__class__)
-        raise ValueError(f"Player can't interact with {actor.__class__}")

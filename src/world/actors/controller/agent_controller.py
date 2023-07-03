@@ -9,7 +9,6 @@ from  world.field.views.state_gen import StateGen
 
 class AgentController(AbstractController):
 
-
     def __init__(self, field: Field, actors: list[Actor], env: Environment = None):
         super().__init__(field, actors)
         self.state_view = StateGen(field, env)

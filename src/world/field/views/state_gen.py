@@ -7,7 +7,6 @@ from world.actors.dog import Dog
 
 
 class StateGen:
-
     def __init__(self, field: Field, env: Environment = None) -> None:
         self.field = field
         self.env = env

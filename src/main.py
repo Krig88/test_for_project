@@ -20,7 +20,7 @@ if __name__ == "__main__":
     m = {Coordinates(0, 0): 1}
     print(m[Coordinates(0, 0)])
     print("Demo")
-    fg = FieldGenerator(Coordinates(5, 5))  # (first - x, second -y)
+    fg = FieldGenerator(Coordinates(1, 3))  # (first - x, second -y)
     field = fg.get_field()
 
     env = Environment(field, None, tf)
@@ -30,14 +30,18 @@ if __name__ == "__main__":
     field.place_actor(player, Coordinates(0, 0))
     field.place_actor(player1, Coordinates(0, 1))
 
-    #field.place_actor(cat, Coordinates(1, 0))
 
-    # field.place_actor(dog, Coordinates(3, 0))
+
+    field.place_actor(cat, Coordinates(0, 2))
+    #field.place_actor(dog, Coordinates(1, 1))
     # field.place_wall(Coordinates(4, 0))
     # field.cells[1][0] = Cell(False, "#")
     # field.cells[1][2] = Cell(False, "#")
 
-    game = Game(field, [KeyboardController(field, [player, player1])], env)
+
+#    game = Game(field, [KeyboardController(field, [player, player1]), RandomController(field, [cat])], env)
+    game = Game(field, [RandomController(field, [player, player1,cat])], env)
+
     game.start(10000)
 
     # for _ in range(1):

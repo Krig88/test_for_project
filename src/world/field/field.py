@@ -8,7 +8,7 @@ from world.coordinates import Coordinates
 class Field:
     def __init__(self, cells: list[list[Cell]]) -> None:
         self.cells = cells
-        self.size = Coordinates(len(cells), len(cells[0]))
+        self.size = Coordinates(len(cells) , len(cells[0]))
         self.actors = dict()
 
     def place_actor(self, actor: Actor, coordinates: Coordinates) -> None:

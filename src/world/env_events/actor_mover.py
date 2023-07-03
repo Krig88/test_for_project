@@ -7,6 +7,8 @@ from world.actors.player import Player
 from world.field.field import Field
 from world.coordinates import Coordinates
 from world.field.cell import Cell
+from world.actors.dog import Dog
+from world.actors.cat import Cat
 
 
 class ActorMover:
@@ -26,11 +28,15 @@ class ActorMover:
         eaten_actor = None
         if destination_cell.actor is not None:
             try:
-                destination_cell.actor.interact_with(position_cell.actor)
+                self.env.actors_interact(destination_cell.actor, position_cell.actor)
+                #self.env.actors_interact(Dog(), Cat())
                 self.field.actors[destination_cell.actor] = None
                 eaten_actor = destination_cell.actor
                 logging.info("actor %s interacted with %s", actor, destination_cell.actor)
             except ValueError as ve:
+                return
+            except AttributeError as ate:
+                print("none interacting")
                 return
         destination_cell.actor = actor
         position_cell.actor = None
