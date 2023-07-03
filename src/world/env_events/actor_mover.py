@@ -1,10 +1,10 @@
 import logging
 import random
 
-from environment import Environment
-from world.actors.actor import Actor
-from world.coordinates import Coordinates
-from world.field.field import Field
+from src.environment import Environment
+from src.world.actors.actor import Actor
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
 
 
 class ActorMover:

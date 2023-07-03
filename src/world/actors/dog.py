@@ -1,4 +1,4 @@
-from world.actors.actor import Actor
+from src.world.actors.actor import Actor
 
 
 class Dog(Actor):

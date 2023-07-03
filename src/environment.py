@@ -1,21 +1,28 @@
 import logging
+from enum import Enum
 
-from world.actors.actor import Actor
-from world.actors.cat import Cat
-from world.actors.dog import Dog
-from world.coordinates import Coordinates
-from world.field.field import Field
+from src.world.actors.actor import Actor
+from src.world.actors.cat import Cat
+from src.world.actors.dog import Dog
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
 
 
-# topology_function(coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]
+class Connectedness(Enum):
+    FOUR_CONNECTEDNESS = 0
+    EIGHT_CONNECTEDNESS = 1
+
 
 class Environment:
+    # TODO: add 8-connectedness
     def __init__(self, field: Field, connectedness, topology_function=None) -> None:
         self.field = field
         self.areas = {}
         self.connectedness = connectedness
         self.topology_function = topology_function
         self.directions = [Coordinates(0, 1), Coordinates(0, -1), Coordinates(1, 0), Coordinates(-1, 0)]
+        if self.connectedness == Connectedness.EIGHT_CONNECTEDNESS:
+            self.directions += [Coordinates(1, 1), Coordinates(-1, -1), Coordinates(1, -1), Coordinates(-1, 1)]
 
     def register_area(self, actor_type: type, area: tuple[Coordinates, Coordinates], set_to: bool = True) -> None:
         """edit area for actor_type on field.\n

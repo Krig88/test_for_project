@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from world.coordinates import Coordinates
-from world.field.field import Field
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
 
 
 class AbstractView(ABC):

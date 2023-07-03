@@ -1,14 +1,14 @@
 import logging
 
-from world.actors.actor import Actor
-from world.coordinates import Coordinates
-from world.field.cell import Cell
+from src.world.actors.actor import Actor
+from src.world.coordinates import Coordinates
+from src.world.field.cell import Cell
 
 
 class Field:
     def __init__(self, cells: list[list[Cell]]) -> None:
         self.cells = cells
-        self.size = Coordinates(len(cells) , len(cells[0]))
+        self.size = Coordinates(len(cells), len(cells[0]))
         self.actors = dict()
 
     def place_actor(self, actor: Actor, coordinates: Coordinates) -> None:
@@ -26,7 +26,8 @@ class Field:
         cell = self.cells[coordinates.x][coordinates.y]
         if cell.passable and (not cell.actor):
             cell.passable = False
-        logging.error("Index Error trying to place wall at %s", coordinates)
+            return
+        logging.error("Index Error trying to place wall at %s, field size is %s", coordinates, self.size)
         raise IndexError
 
     def get_cell_at(self, coordinates: Coordinates) -> Cell:

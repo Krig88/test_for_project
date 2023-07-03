@@ -1,9 +1,9 @@
-from world.actors.cat import Cat
-from world.actors.dog import Dog
-from world.actors.player import Player
-from world.coordinates import Coordinates
-from world.field.field import Field
-from world.field.views.abstract_view import AbstractView
+from src.world.actors.cat import Cat
+from src.world.actors.dog import Dog
+from src.world.actors.player import Player
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
+from src.world.field.views.abstract_view import AbstractView
 
 
 class FullFieldView(AbstractView):
@@ -14,7 +14,6 @@ class FullFieldView(AbstractView):
 
     def get_view(self, coordinates: Coordinates = None) -> str:
         result = ''
-        #result = [[self.get_cell_char(Coordinates(i, j)) for j in range(self.field.size.y)] for i in range(self.field.size.x)]
         for i in range(self.field.size.x):
             for j in range(self.field.size.y):
                 cell = self.field.get_cell_at(Coordinates(i, j))

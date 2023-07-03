@@ -1,15 +1,15 @@
 import random
 
-from environment import Environment
-from world.actors.actor import Actor
-from world.actors.controller.abstract_controller import AbstractController
-from world.coordinates import Coordinates
-from world.field.field import Field
+from src.environment import Environment
+from src.world.actors.actor import Actor
+from src.world.actors.controller.abstract_controller import AbstractController
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
 
 
 class RandomController(AbstractController):
-    def __init__(self, field: Field, actors: list[Actor], is8=False, env: Environment = None):
-        super().__init__(field, actors, is8)
+    def __init__(self, field: Field, actors: list[Actor], env: Environment = None):
+        super().__init__(field, actors)
 
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
         results = []
