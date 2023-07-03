@@ -12,29 +12,32 @@ from world.field.views.full_field_view import FullFieldView
 from world.game import Game
 from world.actors.controller.magent_controller import MAgentController
 from world.coordinates import Coordinates
+from world.actors.controller.catdog import CatDog
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, filename='app.log', filemode='w')
     m = {Coordinates(0, 0): 1}
     print(m[Coordinates(0, 0)])
     print("Demo")
-    fg = FieldGenerator(Coordinates(10, 10))  # (first - x, second -y)
+    fg = FieldGenerator(Coordinates(5, 5))  # (first - x, second -y)
     field = fg.get_field()
 
     env = Environment(field, None, tf)
 
     view = FullFieldView(field)
     player, player1, cat, dog = Player(), Player(), Cat(), Dog()  # , player2 Player(),
-    field.place_actor(player, Coordinates(5, 5))
-    field.place_actor(player1, Coordinates(0, 3))
-    field.place_actor(cat, Coordinates(1, 0))
-    field.place_actor(dog, Coordinates(0, 1))
+    field.place_actor(player, Coordinates(0, 0))
+    field.place_actor(player1, Coordinates(0, 1))
+
+    #field.place_actor(cat, Coordinates(1, 0))
+
     # field.place_actor(dog, Coordinates(3, 0))
     # field.place_wall(Coordinates(4, 0))
     # field.cells[1][0] = Cell(False, "#")
     # field.cells[1][2] = Cell(False, "#")
 
-    game = Game(field, [KeyboardController(field, [player, player1]), RandomController(field, [cat])], env)
+    game = Game(field, [KeyboardController(field, [player, player1])], env)
     game.start(10000)
 
     # for _ in range(1):

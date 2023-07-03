@@ -8,8 +8,8 @@ from environment import Environment
 
 
 class KeyboardController(AbstractController):
-    def __init__(self, field: Field, actors: list[Actor], is8=False, env: Environment = None):
-        super().__init__(field, actors, is8)
+    def __init__(self, field: Field, actors: list[Actor], env: Environment = None):
+        super().__init__(field, actors)
 
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
         # view = FowFieldOfView(self.field)
@@ -23,8 +23,6 @@ class KeyboardController(AbstractController):
                 pre_result = list(map(int, input().split()))
                 result = Coordinates(pre_result[0], pre_result[1])
                 if -1 <= result.x <= 1 and -1 <= result.y <= 1:
-                    if not self.is8 and sum(pre_result) in (-2, 0, 2):
-                        continue
                     break
                 print("Wrong input")
             results.append((actor, result))

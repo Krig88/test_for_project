@@ -6,11 +6,10 @@ from world.coordinates import Coordinates
 
 
 class AbstractController(ABC):
-    def __init__(self, field: Field, actors: list[Actor], is8=False, env: Environment = None):
+    def __init__(self, field: Field, actors: list[Actor], env: Environment = None):
         self.field = field
         self.actors = actors
-        self.is8 = is8
-        self.environment = env
+        self.env = env
 
     @abstractmethod
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
