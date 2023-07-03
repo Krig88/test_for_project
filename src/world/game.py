@@ -3,11 +3,9 @@ import logging
 from environment import Environment
 from world.actors.controller.abstract_controller import AbstractController
 from world.coordinates import Coordinates
+from world.env_events.actor_mover import ActorMover
 from world.field.field import Field
 from world.field.views.full_field_view import FullFieldView
-from world.env_events.actor_mover import ActorMover
-from world.actors.controller.magent_controller import MAgentController
-from world.field.views.state_gen import StateGen
 
 
 class Game:

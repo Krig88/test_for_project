@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
+
 from environment import Environment
 from world.actors.actor import Actor
-from world.field.field import Field
 from world.coordinates import Coordinates
+from world.field.field import Field
 
 
 class AbstractController(ABC):

@@ -1,5 +1,3 @@
-import logging
-
 from world.actors.actor import Actor
 
 

@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 from world.actors.actor import Actor
 
 

@@ -1,8 +1,8 @@
 import logging
 
+from world.coordinates import Coordinates
 from world.field.cell import Cell
 from world.field.field import Field
-from world.coordinates import Coordinates
 
 
 class FieldGenerator:

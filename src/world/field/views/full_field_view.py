@@ -1,9 +1,9 @@
+from world.actors.cat import Cat
+from world.actors.dog import Dog
+from world.actors.player import Player
+from world.coordinates import Coordinates
 from world.field.field import Field
 from world.field.views.abstract_view import AbstractView
-from world.coordinates import Coordinates
-from world.actors.player import Player
-from world.actors.dog import Dog
-from world.actors.cat import Cat
 
 
 class FullFieldView(AbstractView):

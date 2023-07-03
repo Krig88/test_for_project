@@ -1,7 +1,4 @@
-import logging
-
 from world.actors.actor import Actor
-from world.actors.player import Player
 
 
 class Dog(Actor):

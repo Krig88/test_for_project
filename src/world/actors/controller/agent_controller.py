@@ -1,10 +1,10 @@
 
+from environment import Environment
 from world.actors.actor import Actor
 from world.actors.controller.abstract_controller import AbstractController
-from world.field.field import Field
 from world.coordinates import Coordinates
-from environment import Environment
-from  world.field.views.state_gen import StateGen
+from world.field.field import Field
+from world.field.views.state_gen import StateGen
 
 
 class AgentController(AbstractController):

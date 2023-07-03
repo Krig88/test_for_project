@@ -1,15 +1,13 @@
-from world.actors.actor import Actor
-from world.actors.controller.abstract_controller import AbstractController
-from world.field.field import Field
-from world.field.views.fow_field_of_view import FowFieldOfView
-from world.field.views.full_field_view import FullFieldView
-from world.coordinates import Coordinates
-from environment import Environment
-from world.actors.controller.random_contoller import RandomController
-from world.actors.player import Player
 import random
+
+from environment import Environment
+from world.actors.actor import Actor
 from world.actors.cat import Cat
+from world.actors.controller.abstract_controller import AbstractController
 from world.actors.dog import Dog
+from world.actors.player import Player
+from world.coordinates import Coordinates
+from world.field.field import Field
 
 
 class CatDog(AbstractController):

@@ -1,8 +1,10 @@
+import logging
+
 from world.actors.actor import Actor
-from world.coordinates import Coordinates
-from world.field.field import Field
 from world.actors.cat import Cat
 from world.actors.dog import Dog
+from world.coordinates import Coordinates
+from world.field.field import Field
 
 
 # topology_function(coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]
@@ -38,7 +40,6 @@ class Environment:
         return self.areas[actor_type][coordinates.y][coordinates.x]
 
     def is_move_valid(self, actor: Actor, position: Coordinates, direction: Coordinates) -> bool:
-        print(direction)
         """check is move valid taking into account topology function and registered area"""
         if actor not in self.field.actors or self.field.actors[actor] is None:
             raise ValueError(f"this actor {actor} marked as {actor} not at Field")
@@ -70,8 +71,8 @@ class Environment:
         return near_cells
 
     def actors_interact(self, interacting_actor: Actor, actor: Actor):
-        print("interacting")
-        print(interacting_actor, actor)
+        # TODO: add hooks to change interaction to environment
+        logging.info("interacting %s to %s", interacting_actor, actor)
 
         if type(interacting_actor) == Cat:
             actor.score += 1
@@ -79,11 +80,11 @@ class Environment:
         if type(interacting_actor) == Dog:
             actor.score -= 1
             return
-
         raise ValueError
 
+
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
-    if coordinates.x not in (0, env.field.size.x-1) and coordinates.y not in (0, env.field.size.y-1):
+    if coordinates.x not in (0, env.field.size.x - 1) and coordinates.y not in (0, env.field.size.y - 1):
         return True if direction in env.directions else False, coordinates + direction
     result = True
     if coordinates.x == 0 and direction == Coordinates(-1, 0):

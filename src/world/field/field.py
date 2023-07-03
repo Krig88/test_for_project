@@ -1,8 +1,8 @@
 import logging
 
 from world.actors.actor import Actor
-from world.field.cell import Cell
 from world.coordinates import Coordinates
+from world.field.cell import Cell
 
 
 class Field:

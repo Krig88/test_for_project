@@ -3,12 +3,8 @@ import random
 
 from environment import Environment
 from world.actors.actor import Actor
-from world.actors.player import Player
-from world.field.field import Field
 from world.coordinates import Coordinates
-from world.field.cell import Cell
-from world.actors.dog import Dog
-from world.actors.cat import Cat
+from world.field.field import Field
 
 
 class ActorMover:
@@ -36,7 +32,7 @@ class ActorMover:
             except ValueError as ve:
                 return
             except AttributeError as ate:
-                print("none interacting")
+                logging.debug("none interacting")
                 return
         destination_cell.actor = actor
         position_cell.actor = None
