@@ -24,24 +24,23 @@ class CatDog(AbstractController):
             near_cells = self.env.get_near_cells(actor_pos)
             near_players = self.is_player_near(near_cells)
             if near_players:
-                print("player is near")
                 if self.last_turn_actors[actor]:
                     decisions.append((actor, Coordinates(0, 0)))
                     continue
                 new_actor = self.change_me(actor, actor_counter, actor_pos)
                 decisions.append((new_actor, Coordinates(0, 0)))
+                self.last_turn_actors[actor] = True
                 continue
-            print("player not near")
+
             decision = self.choose_direction(near_cells)
-            if self.is_player_near(self.env.get_near_cells(decision)) and not self.last_turn_actors[actor]:
+            self.last_turn_actors[actor] = near_players
+            if self.is_player_near(self.env.get_near_cells(decision)):
                 actor = self.change_me(actor, actor_counter, actor_pos)
             decisions.append((actor, decision - actor_pos))
-            print("decisions:", decisions)
-            self.last_turn_actors[actor] = False
+
         return decisions
 
     def is_player_near(self, near_cells: list[Coordinates]) -> bool:
-        players_near = []
         for i in near_cells:
             if i is None:
                 continue
@@ -60,15 +59,12 @@ class CatDog(AbstractController):
                 continue
             if cell.actor is not None:
                 continue
-            print(i)
             directions.append(i)
-        print("Catdog direction:", directions)
         return directions[random.randint(0, len(directions) - 1)]
 
     def change_me(self, actor: Actor, actors_pos_in_list: int, actor_pos: Coordinates) -> Actor:
         # TODO: implement zone check
-        # def dont change actor in the cell on board
-        new_actor = Cat() if random.randint(0, 0) else Dog()
+        new_actor = Cat() if random.randint(0, 1) else Dog()
         self.field.actors.pop(actor)
         self.field.actors[new_actor] = actor_pos
         self.field.get_cell_at(actor_pos).actor = new_actor
