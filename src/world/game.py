@@ -29,5 +29,6 @@ class Game:
                 decisions = controller.make_decision()
                 for i in decisions:
                     self.actor_mover.move_actor(i[0], i[1])
+
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
         logging.info("Game started")

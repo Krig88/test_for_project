@@ -1,9 +1,9 @@
-from environment import Environment
-from world.actors.actor import Actor
-from world.actors.controller.abstract_controller import AbstractController
-from world.coordinates import Coordinates
-from world.field.field import Field
-from world.field.views.full_field_view import FullFieldView
+from src.environment import Environment
+from src.world.actors.actor import Actor
+from src.world.actors.controller.abstract_controller import AbstractController
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
+from src.world.field.views.full_field_view import FullFieldView
 
 
 class KeyboardController(AbstractController):
