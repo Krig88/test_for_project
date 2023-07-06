@@ -1,5 +1,6 @@
 from src.environment import Environment
 from src.world.actors.cat import Cat
+from src.world.actors.dog import Dog
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
 from src.world.actors.actor import Actor
@@ -23,7 +24,7 @@ class StateGen:
                 state[i][0] = 1
                 continue
             if cell.actor is not None:
-                if isinstance(cell.actor, Cat):
+                if isinstance(cell.actor, Dog):
                     state[i][1] = 1
                     continue
                 if isinstance(cell.actor, Cat):
