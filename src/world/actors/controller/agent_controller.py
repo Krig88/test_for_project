@@ -33,7 +33,9 @@ class AgentController(AbstractController):
         self.last_reward = None
 
     def collect_reward(self):
-        self.last_reward = self.actors[0].score
+        self.last_reward = self.actors[0].reward
+        self.actors[0].score += self.actors[0].reward
+        self.actors[0].reward = 0
 
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
         q = self.state_view.get_state(self.actors[0])

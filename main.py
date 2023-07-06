@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO, filename='app.log', filemode='w')
 
 if __name__ == "__main__":
     game = configurate()
-    game.start(10000)
+    game.start(50000)
     i = 1
     for controller in game.actor_controllers:
         for actor in controller.actors:

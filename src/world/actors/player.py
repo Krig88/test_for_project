@@ -8,4 +8,5 @@ class Player(Actor):
         self.score = score
         self.cats = 0
         self.dogs = 0
+        self.reward = 0
 

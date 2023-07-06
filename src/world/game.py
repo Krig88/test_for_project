@@ -34,7 +34,7 @@ class Game:
                 decisions = controller.make_decision()
                 for i in decisions:
                     self.actor_mover.move_actor(i[0], i[1])
-            self.actor_controllers[0].actors[0].score -= 1
+            self.actor_controllers[0].actors[0].reward -= 1
             self.actor_controllers[0].collect_reward()
             self.actor_controllers[0].update_model()
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
