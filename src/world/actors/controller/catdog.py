@@ -60,6 +60,8 @@ class CatDog(AbstractController):
             if cell.actor is not None:
                 continue
             directions.append(i)
+        if not len(directions):
+            return Coordinates(1, 0)
         return directions[random.randint(0, len(directions) - 1)]
 
     def change_me(self, actor: Actor, actors_pos_in_list: int, actor_pos: Coordinates) -> Actor:

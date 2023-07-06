@@ -13,7 +13,6 @@ class StateGen:
     def get_state(self, actor: Actor) -> list[list[int]]:
         state = [[0 for _ in range(3)] for _ in range(4)]
         coordinates = self.field.actors[actor]
-        print(coordinates)
         near_cells = self.env.get_near_cells(coordinates)
         for i in range(0, len(near_cells)):
             if near_cells[i] is None:
