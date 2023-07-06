@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from tensorflow.python.keras import layers
+from keras import layers
 
 from src.environment import Environment
 from src.world.actors.actor import Actor
@@ -16,10 +16,10 @@ class AgentController(AbstractController):
         self.state_view = StateGen(field, env)
         self.list_of_actions = [Coordinates(1, 0), Coordinates(0, 1), Coordinates(0, -1), Coordinates(-1, 0)]
         num_actions = 4  # [[1,0], [0,1], [0,-1], [-1,0]]
-        num_state = 12  #self.state_view.size  # TODO: Размерность пространства состояний
+        # num_state = np.matrix(4, 3)  # self.state_view.size  # TODO: Размерность пространства состояний
 
         # Создание модели Actor-Critic
-        inputs = layers.Input(shape=(num_state,))
+        inputs = layers.Input(shape=(12,))
         common = layers.Dense(128, activation='relu')(inputs)
         action = layers.Dense(num_actions, activation='softmax')(common)
         critic = layers.Dense(1)(common)
@@ -36,11 +36,20 @@ class AgentController(AbstractController):
         self.last_reward = self.actors[0].score
 
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
-
-        state = tf.convert_to_tensor(self.state_view.get_state(self.actors[0]))
+        q = self.state_view.get_state(self.actors[0])
+        s = []
+        for i in q:
+            s += i
+        state = tf.convert_to_tensor(
+            tf.reshape(
+                s, 12
+            )
+        )
         state = tf.expand_dims(state, 0)
 
+        # state = np.reshape(state, 12)
         action_probabilities, _ = self.model(state)
+
         action = np.random.choice(4, p=np.squeeze(action_probabilities))
 
         self.last_state = state
@@ -49,15 +58,20 @@ class AgentController(AbstractController):
         # TODO: Преобразовать индекс действия обратно в координаты
         return [(self.actors[0], self.list_of_actions[action])]
 
-
-#new_state = self.state_view.get_state(self.actors[0])
-
+    # new_state = self.state_view.get_state(self.actors[0])
 
     def update_model(self):
         if self.last_state is None or self.last_reward is None or self.last_action is None:
             return
-        new_state = self.state_view.get_state(self.actors[0])
-        new_state = tf.convert_to_tensor(new_state)
+        q = self.state_view.get_state(self.actors[0])
+        s = []
+        for i in q:
+            s += i
+        new_state = tf.convert_to_tensor(
+            tf.reshape(
+                s, 12
+            )
+        )
         new_state = tf.expand_dims(new_state, 0)
 
         _, next_critic_value = self.model(new_state)
@@ -77,4 +91,3 @@ class AgentController(AbstractController):
 
         grads = tape.gradient(total_loss, self.model.trainable_variables)
         self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
-
