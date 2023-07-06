@@ -1,7 +1,8 @@
-from environment import Environment
-from world.actors.cat import Cat
-from world.coordinates import Coordinates
-from world.field.field import Field
+from src.environment import Environment
+from src.world.actors.cat import Cat
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
+from src.world.actors.actor import Actor
 
 
 class StateGen:
@@ -9,8 +10,10 @@ class StateGen:
         self.field = field
         self.env = env
 
-    def get_state(self, coordinates: Coordinates) -> list[list[int]]:
+    def get_state(self, actor: Actor) -> list[list[int]]:
         state = [[0 for _ in range(3)] for _ in range(4)]
+        coordinates = self.field.actors[actor]
+        print(coordinates)
         near_cells = self.env.get_near_cells(coordinates)
         for i in range(0, len(near_cells)):
             if near_cells[i] is None:

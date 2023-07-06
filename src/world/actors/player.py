@@ -6,4 +6,5 @@ class Player(Actor):
         super().__init__(distance_of_view)
         self.distance_of_view = distance_of_view
         self.score = score
+        self.reward = 0
 
