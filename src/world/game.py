@@ -24,12 +24,18 @@ class Game:
             logging.critical("No Controllers to start game")
             raise ValueError("No Controllers")
 
-        for _ in range(iterations):
+        for j in range(iterations):
             if self.actor_controllers[0].actors[0].score <= 0:
                 break
             self.steps += 1
+
+
+            player = self.actor_controllers[0].actors[0]
+            player_pos = self.field.actors[player]
+
+
             logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
-            logging.debug("Started %s game iteration", _)
+            logging.debug("Started %s game iteration", j)
             for controller in self.actor_controllers:
                 decisions = controller.make_decision()
                 for i in decisions:
@@ -41,9 +47,13 @@ class Game:
                         self.actor_controllers[0].collect_reward()
                         self.actor_controllers[0].update_model()
                     '''
+            if player_pos == self.field.actors[player]:
+                player.reward -= 10
 
-            self.actor_controllers[0].actors[0].reward -= 1
+
             self.actor_controllers[0].collect_reward()
-            self.actor_controllers[0].update_model()
+            if j % 1 == 0:
+                self.actor_controllers[0].update_model()
+
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
         logging.info("Game started")

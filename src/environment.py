@@ -82,11 +82,11 @@ class Environment:
         logging.info("interacting %s to %s", interacting_actor, actor)
 
         if type(interacting_actor) == Cat:
-            actor.reward = 1000
+            actor.reward = 3
             actor.cats += 1
             return
         if type(interacting_actor) == Dog:
-            actor.reward = -2
+            actor.reward = -3
             actor.dogs += 1
             return
         raise ValueError
