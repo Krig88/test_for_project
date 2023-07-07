@@ -6,7 +6,7 @@ from src.world.coordinates import Coordinates
 from src.world.env_events.actor_mover import ActorMover
 from src.world.field.field import Field
 from src.world.field.views.full_field_view import FullFieldView
-
+from src.world.actors.player import Player
 
 class Game:
     def __init__(self, field: Field, actor_controllers: list[AbstractController], env: Environment):
@@ -34,6 +34,14 @@ class Game:
                 decisions = controller.make_decision()
                 for i in decisions:
                     self.actor_mover.move_actor(i[0], i[1])
+
+                    '''
+                    if isinstance(i[0], Player):
+                        self.actor_controllers[0].actors[0].reward -= 1
+                        self.actor_controllers[0].collect_reward()
+                        self.actor_controllers[0].update_model()
+                    '''
+
             self.actor_controllers[0].actors[0].reward -= 1
             self.actor_controllers[0].collect_reward()
             self.actor_controllers[0].update_model()
