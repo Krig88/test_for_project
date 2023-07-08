@@ -11,8 +11,11 @@ from src.world.actors.controller.catdog import CatDog
 from .configuration_rules import places
 from src.world.actors.controller.agent_controller import AgentController
 
+wc = None
+
 
 def configurate() -> Game:
+    global wc
     wc = WorldConfigurator(Coordinates(4, 4))
     field = wc.get_field()
     env = Environment(field, Connectedness.FOUR_CONNECTEDNESS, tf)
@@ -23,14 +26,14 @@ def configurate() -> Game:
             (),
             (
                 (player1, Coordinates(1, 1)),
-                #(player2, Coordinates(4, 2)),
+                # (player2, Coordinates(4, 2)),
                 (cat1, Coordinates(0, 0)),
-                #(dog, Coordinates(0, 1)),
+                # (dog, Coordinates(0, 1)),
                 (dog2, Coordinates(0, 1)),
                 (cat2, Coordinates(0, 2)),
             )
         )
     )
-    #AgentController(field, [player1], env)
+    # AgentController(field, [player1], env)
     game = Game(field, [AgentController(field, [player1], env), RandomController(field, [cat1, cat2, dog2])], env)
     return game

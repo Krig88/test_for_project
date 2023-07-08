@@ -6,7 +6,7 @@ from src.world.actors.player import Player
 logging.basicConfig(level=logging.INFO, filename='app.log', filemode='w')
 
 if __name__ == "__main__":
-    print(f"steps:{game.steps}")
+    # print(f"steps:{game.steps}")
     for j in range(100):
         game = configurate()
         game.start(5000)
