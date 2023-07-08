@@ -8,7 +8,7 @@ try:
     os.makedirs(log_dir)
 except FileExistsError:
     pass
-logging.basicConfig(level=logging.INFO, filemode='w')
+logging.basicConfig(level=logging.INFO, filename=log_dir + f'/game0.log', filemode='w')
 
 if __name__ == "__main__":
     # print(f"steps:{game.steps}")
