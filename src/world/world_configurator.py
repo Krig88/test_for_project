@@ -25,7 +25,7 @@ class WorldConfigurator:
     def reset_field(self, field_size: Coordinates = None) -> None:
         field_size = self.field.size
         self.field = Field([[Cell() for _ in range(field_size.y)] for _ in range(field_size.x)])
-        logging.info("field reset", field_size)
+        #logging.info("field reset", field_size)
         if field_size is None:
             field_size = self.field_size
         self.field = Field([[Cell() for _ in range(field_size.y)] for _ in range(field_size.x)])

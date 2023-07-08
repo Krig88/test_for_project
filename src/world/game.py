@@ -8,6 +8,7 @@ from src.world.field.field import Field
 from src.world.field.views.full_field_view import FullFieldView
 from src.world.actors.player import Player
 
+
 class Game:
     def __init__(self, field: Field, actor_controllers: list[AbstractController], env: Environment):
         self.field = field
@@ -29,10 +30,8 @@ class Game:
                 break
             self.steps += 1
 
-
             player = self.actor_controllers[0].actors[0]
             player_pos = self.field.actors[player]
-
 
             logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
             logging.debug("Started %s game iteration", j)
@@ -50,10 +49,9 @@ class Game:
             if player_pos == self.field.actors[player]:
                 player.reward -= 10
 
-
             self.actor_controllers[0].collect_reward()
             if j % 1 == 0:
                 self.actor_controllers[0].update_model()
 
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
-        logging.info("Game started")
+

@@ -79,6 +79,7 @@ class Environment:
 
     def actors_interact(self, interacting_actor: Actor, actor: Actor):
         # TODO: add hooks to change interaction to environment
+        # TODO load rewards from config
         logging.info("interacting %s to %s", interacting_actor, actor)
 
         if type(interacting_actor) == Cat:
