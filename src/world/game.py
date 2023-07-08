@@ -51,6 +51,7 @@ class Game:
 
             self.actor_controllers[0].collect_reward()
             if j % 1 == 0:
+                
                 self.actor_controllers[0].update_model()
 
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))

@@ -2,6 +2,7 @@ import logging
 import os
 from src.configurations.first_configuration import configurate
 from src.world.actors.player import Player
+from src.configurations.game_config import GameConfig as Conf
 
 log_dir = "logs"
 try:
@@ -12,11 +13,11 @@ logging.basicConfig(level=logging.INFO, filename=log_dir + f'/game0.log', filemo
 
 if __name__ == "__main__":
     # print(f"steps:{game.steps}")
-    for j in range(5):
+    for j in range(Conf.num_of_games):
         handler = logging.FileHandler(log_dir + f'/game{j}.log')
         logging.getLogger().addHandler(handler)
         game = configurate()
-        game.start(100)
+        game.start(Conf.iterations)
         i = 1
         for controller in game.actor_controllers:
             for actor in controller.actors:
@@ -31,4 +32,3 @@ if __name__ == "__main__":
         print(f"game{j} finished")
 
 
-#TODO fix console output
