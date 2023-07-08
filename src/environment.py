@@ -1,6 +1,6 @@
 import logging
 from enum import Enum
-
+from src.configurations.game_config import GameConfig as Conf
 from src.world.actors.actor import Actor
 from src.world.actors.cat import Cat
 from src.world.actors.dog import Dog
@@ -16,6 +16,8 @@ class Connectedness(Enum):
 class Environment:
     # TODO: add 8-connectedness
     def __init__(self, field: Field, connectedness, topology_function=None) -> None:
+        self.cat_reward = Conf.cat_reward
+        self.dog_reward = Conf.dog_reward
         self.field = field
         self.areas = {}
         self.connectedness = connectedness
@@ -79,15 +81,13 @@ class Environment:
 
     def actors_interact(self, interacting_actor: Actor, actor: Actor):
         # TODO: add hooks to change interaction to environment
-        # TODO load rewards from config
         logging.info("interacting %s to %s", interacting_actor, actor)
-
         if type(interacting_actor) == Cat:
-            actor.reward = 3
+            actor.reward = self.cat_reward
             actor.cats += 1
             return
         if type(interacting_actor) == Dog:
-            actor.reward = -3
+            actor.reward = self.dog_reward
             actor.dogs += 1
             return
         raise ValueError
