@@ -8,7 +8,6 @@ from src.world.field.field import Field
 
 
 class ActorMover:
-
     def __init__(self, field: Field, env: Environment) -> None:
         self.field = field
         self.env = env

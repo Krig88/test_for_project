@@ -3,13 +3,11 @@ import os
 from src.configurations.first_configuration import configurate
 from src.world.actors.player import Player
 from src.configurations.game_config import GameConfig as Conf
+import log_operations
 
 log_dir = "logs"
-try:
-    os.makedirs(log_dir)
-except FileExistsError:
-    pass
-logging.basicConfig(level=logging.INFO, filename=log_dir + f'/game0.log', filemode='w')
+log_operations.log_init(log_dir)
+
 
 if __name__ == "__main__":
     # print(f"steps:{game.steps}")
