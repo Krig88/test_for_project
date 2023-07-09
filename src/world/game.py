@@ -44,7 +44,7 @@ class Game:
                     self.actor_mover.move_actor(i[0], i[1])
 
             if player_pos == self.field.actors[player]:
-                player.reward -= Conf.skip_reward
+                player.reward += Conf.skip_reward
             self.actor_controllers[0].collect_reward()
             if j % Conf.steps_to_update_model == 0:
                 self.actor_controllers[0].update_model()

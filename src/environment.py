@@ -6,6 +6,7 @@ from src.world.actors.cat import Cat
 from src.world.actors.dog import Dog
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
+import for_logging.agents_statistic as AS
 
 
 class Connectedness(Enum):
@@ -84,11 +85,11 @@ class Environment:
         logging.info("interacting %s to %s", interacting_actor, actor)
         if type(interacting_actor) == Cat:
             actor.reward = self.cat_reward
-            actor.cats += 1
+            AS.get_statistic(actor).cats += 1
             return
         if type(interacting_actor) == Dog:
             actor.reward = self.dog_reward
-            actor.dogs += 1
+            AS.get_statistic(actor).dogs += 1
             return
         raise ValueError
 

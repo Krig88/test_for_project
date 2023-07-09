@@ -10,6 +10,7 @@ from src.world.world_configurator import WorldConfigurator
 from src.world.actors.controller.catdog import CatDog
 from .configuration_rules import places
 from src.world.actors.controller.agent_controller import AgentController
+import for_logging.agents_statistic as AS
 
 wc = None
 
@@ -20,6 +21,7 @@ def configurate() -> Game:
     field = wc.get_field()
     env = Environment(field, Connectedness.FOUR_CONNECTEDNESS, tf)
     player1, cat1, dog, cat2, dog2 = Player(), Cat(), Dog(), Cat(), Dog()
+
     wc.apply_rules(
         rules=(places.place_walls, places.place_actors),
         arguments=(
@@ -34,6 +36,8 @@ def configurate() -> Game:
             )
         )
     )
+
+    AS.add_agent_to_folder(player1)
     # AgentController(field, [player1], env)
     game = Game(field, [AgentController(field, [player1], env), RandomController(field, [cat1, cat2, dog2])], env)
     return game
