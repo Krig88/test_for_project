@@ -6,27 +6,26 @@ from src.configurations.game_config import GameConfig as Conf
 import log_operations
 
 log_dir = "logs"
-log_operations.log_init(log_dir)
+log_operations.log_init()
 
 
 if __name__ == "__main__":
     # print(f"steps:{game.steps}")
     for j in range(Conf.num_of_games):
-        handler = logging.FileHandler(log_dir + f'/game{j}.log')
-        logging.getLogger().addHandler(handler)
+        log_operations.change_logging_file(f'game{j}.log')
+        log_operations.log_game_statistic(f"Game number {j}")
         game = configurate()
         game.start(Conf.iterations)
         i = 1
         for controller in game.actor_controllers:
             for actor in controller.actors:
                 if isinstance(actor, Player):
-                    logging.info(f"cats:{actor.cats}")
-                    logging.info(f"dogs:{actor.dogs}")
-                    logging.info(f"actor{i} score is {actor.score}")
+                    log_operations.log_game_statistic(f"cats:{actor.cats}")
+                    log_operations.log_game_statistic(f"dogs:{actor.dogs}")
+                    log_operations.log_game_statistic(f"actor{i} score is {actor.score}")
                     i += 1
-        logging.info(f"steps:{game.steps}")
-        handler.close()
-        logging.getLogger().removeHandler(handler)
+        log_operations.log_game_statistic(f"steps:{game.steps}")
+        log_operations.log_game_statistic("-----------------------------")
         print(f"game{j} finished")
 
 
