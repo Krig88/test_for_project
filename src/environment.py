@@ -1,12 +1,14 @@
 import logging
 from enum import Enum
+
+import for_logging.agents_statistic as agents_statistic
 from src.configurations.game_config import GameConfig as Conf
 from src.world.actors.actor import Actor
 from src.world.actors.cat import Cat
 from src.world.actors.dog import Dog
+from src.world.actors.player import Player
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
-import for_logging.agents_statistic as AS
 
 
 class Connectedness(Enum):
@@ -15,7 +17,6 @@ class Connectedness(Enum):
 
 
 class Environment:
-    # TODO: add 8-connectedness
     def __init__(self, field: Field, connectedness, topology_function=None) -> None:
         self.cat_reward = Conf.cat_reward
         self.dog_reward = Conf.dog_reward
@@ -80,18 +81,20 @@ class Environment:
             near_cells[i] = coordinates + direction
         return near_cells
 
-    def actors_interact(self, interacting_actor: Actor, actor: Actor):
-        # TODO: add hooks to change interaction to environment
+    def actors_interact(self, interacting_actor: Actor, actor: Actor | None):
         logging.info("interacting %s to %s", interacting_actor, actor)
-        if type(interacting_actor) == Cat:
+        if not isinstance(actor, Player):
+            raise ValueError
+        # unhardcoded
+        # TODO: add hooks to change interaction to environment
+        if isinstance(interacting_actor, Cat):
             actor.reward = self.cat_reward
-            AS.get_statistic(actor).cats += 1
+            agents_statistic.get_statistic(actor).cats += 1
             return
-        if type(interacting_actor) == Dog:
+        if isinstance(interacting_actor, Dog):
             actor.reward = self.dog_reward
-            AS.get_statistic(actor).dogs += 1
+            agents_statistic.get_statistic(actor).dogs += 1
             return
-        raise ValueError
 
 
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:

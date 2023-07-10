@@ -1,6 +1,6 @@
-from world.coordinates import Coordinates
-from world.field.field import Field
-from world.field.views.abstract_view import AbstractView
+from src.world.coordinates import Coordinates
+from src.world.field.field import Field
+from src.world.field.views.abstract_view import AbstractView
 
 
 class FowFieldOfView(AbstractView):

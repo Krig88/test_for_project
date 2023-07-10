@@ -1,10 +1,13 @@
 import logging
 import random
+import for_logging.agents_statistic as a_stat
 
 from src.environment import Environment
 from src.world.actors.actor import Actor
+from src.world.actors.player import Player
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
+from src.configurations.game_config import GameConfig as Conf
 
 
 class ActorMover:
@@ -17,6 +20,9 @@ class ActorMover:
         position_cell = self.field.get_cell_at(position)
         if not self.env.is_move_valid(actor, position, direction):
             logging.debug("move from %s with direction %s is not valid", position, direction)
+            if isinstance(actor, Player):
+                actor.reward += Conf.skip_reward
+                a_stat.agents_statistic_folder[actor].skips += 1
             return
         _, destination = self.env.topology_function(self.env, position, direction)
         destination_cell = self.field.get_cell_at(destination)
@@ -24,13 +30,13 @@ class ActorMover:
         if destination_cell.actor is not None:
             try:
                 self.env.actors_interact(destination_cell.actor, position_cell.actor)
-                #self.env.actors_interact(Dog(), Cat())
+                # self.env.actors_interact(Dog(), Cat())
                 self.field.actors[destination_cell.actor] = None
                 eaten_actor = destination_cell.actor
                 logging.info("actor %s interacted with %s", actor, destination_cell.actor)
-            except ValueError as ve:
+            except ValueError:
                 return
-            except AttributeError as ate:
+            except AttributeError:
                 logging.debug("none interacting")
                 return
         destination_cell.actor = actor

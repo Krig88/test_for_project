@@ -1,5 +1,5 @@
-from src.world.actors.actor import Actor
 from src.configurations.game_config import GameConfig as Conf
+from src.world.actors.actor import Actor
 
 
 class Player(Actor):
@@ -10,4 +10,3 @@ class Player(Actor):
         self.cats = 0
         self.dogs = 0
         self.reward = 0
-

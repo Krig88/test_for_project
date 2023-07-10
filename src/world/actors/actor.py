@@ -8,5 +8,3 @@ class Actor(ABC):
         if distance_of_view <= 0:
             raise ValueError("distance_of_view must be >= 0")
         self.distance_of_view = distance_of_view
-
-

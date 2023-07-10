@@ -5,6 +5,7 @@ from keras import layers
 from src.environment import Environment
 from src.world.actors.actor import Actor
 from src.world.actors.controller.abstract_controller import AbstractController
+from src.world.actors.player import Player
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
 from src.world.field.views.state_gen import StateGen
@@ -16,7 +17,6 @@ class AgentController(AbstractController):
         self.state_view = StateGen(field, env)
         self.list_of_actions = [Coordinates(1, 0), Coordinates(0, 1), Coordinates(0, -1), Coordinates(-1, 0)]
         num_actions = 4  # [[1,0], [0,1], [0,-1], [-1,0]]
-        # num_state = np.matrix(4, 3)  # self.state_view.size  # TODO: Размерность пространства состояний
 
         # Создание модели Actor-Critic
         inputs = layers.Input(shape=(12,))
@@ -33,9 +33,13 @@ class AgentController(AbstractController):
         self.last_reward = None
 
     def collect_reward(self):
-        self.last_reward = self.actors[0].reward
-        self.actors[0].score += self.actors[0].reward
-        self.actors[0].reward = 0
+        # unhardcoded
+        for actor in self.actors:
+            if not isinstance(actor, Player):
+                continue
+            self.last_reward = actor.reward
+            actor.score += actor.reward
+            actor.reward = 0
 
     def make_decision(self, state: list = None) -> list[tuple[Actor, Coordinates]]:
         q = self.state_view.get_state(self.actors[0])
@@ -57,7 +61,6 @@ class AgentController(AbstractController):
         self.last_state = state
         self.last_action = action
 
-        # TODO: Преобразовать индекс действия обратно в координаты
         return [(self.actors[0], self.list_of_actions[action])]
 
     # new_state = self.state_view.get_state(self.actors[0])

@@ -8,7 +8,6 @@ from src.world.actors.dog import Dog
 from src.world.actors.player import Player
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
-import random
 
 
 class CatDog(AbstractController):

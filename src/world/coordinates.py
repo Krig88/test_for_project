@@ -13,7 +13,6 @@ class Coordinates:
         return self.y == other.y and self.x == other.x
 
     def __hash__(self):
-        # TODO: Write hash dunder method
         return self.x + self.y
 
     def __str__(self):

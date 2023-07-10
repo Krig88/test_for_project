@@ -1,9 +1,8 @@
 from src.environment import Environment
+from src.world.actors.actor import Actor
 from src.world.actors.cat import Cat
 from src.world.actors.dog import Dog
-from src.world.coordinates import Coordinates
 from src.world.field.field import Field
-from src.world.actors.actor import Actor
 
 
 class StateGen:

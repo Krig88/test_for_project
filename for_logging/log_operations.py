@@ -1,8 +1,10 @@
 import logging
 import os
 import shutil
-from dataclasses import dataclass
 import for_logging.agents_statistic as a_stat
+
+from dataclasses import dataclass
+
 
 @dataclass
 class LogConfig:
@@ -31,7 +33,8 @@ def clear_folder(folder_path):
                 os.unlink(file_path)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
-        except Exception:
+        except:
+            # TODO: правильно обработать исключения
             pass
 
 
@@ -50,6 +53,7 @@ def setup_custom_logger(name, level, log_file):
     def custom(self, message, *args, **kws):
         if self.isEnabledFor(level):
             self._log(level, message, args, **kws)
+
     setattr(logging.Logger, name, custom)
     logger = logging.getLogger(__name__)
     logger.setLevel(level)

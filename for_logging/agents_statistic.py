@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from src.world.actors.player import Player
 
 
