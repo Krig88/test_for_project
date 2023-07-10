@@ -9,7 +9,7 @@ from src.world.field.views.full_field_view import FullFieldView
 from src.world.actors.player import Player
 from src.configurations.game_config import GameConfig as Conf
 from src.world.actors.controller.agent_controller import AgentController
-
+import for_logging.agents_statistic as a_stat
 
 
 class Game:
@@ -19,6 +19,7 @@ class Game:
         self.actor_mover = ActorMover(field, env)
         self.env = env
         self.steps = 0
+        self.agents_controllers: list[AgentController] = [i for i in actor_controllers if isinstance(i, AgentController)]
 
     def start(self, iterations) -> None:
         logging.info("Game started")
@@ -33,6 +34,10 @@ class Game:
                 if not self.clear_dead():
                     break
 
+            for actor in self.field.actors:
+                if isinstance(actor, Player):
+                    a_stat.agents_statistic_folder[actor].steps += 1
+
             self.steps += 1
             player = self.actor_controllers[0].actors[0]
             player_pos = self.field.actors[player]
@@ -42,23 +47,25 @@ class Game:
                 decisions = controller.make_decision()
                 for i in decisions:
                     self.actor_mover.move_actor(i[0], i[1])
-
+            # TODO rework skip reward
             if player_pos == self.field.actors[player]:
                 player.reward += Conf.skip_reward
-            self.actor_controllers[0].collect_reward()
-            if j % Conf.steps_to_update_model == 0:
-                self.actor_controllers[0].update_model()
+                a_stat.agents_statistic_folder[player].skips += 1
+
+            for controller in self.agents_controllers:
+                controller.collect_reward()
+                if j % Conf.steps_to_update_model == 0:
+                    controller.update_model()
 
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
 
     def clear_dead(self) -> int:
         num_of_actors = 0
-        for controller in self.actor_controllers:
-            if isinstance(controller, AgentController):
-                for actor in controller.actors:
-                    if actor.score <= 0:
-                        self.field.actors.pop(actor)
-                        controller.actors.remove(actor)
-                        continue
-                    num_of_actors += 1
+        for controller in self.agents_controllers:
+            for actor in controller.actors:
+                if actor.score <= 0:
+                    self.field.actors.pop(actor)
+                    controller.actors.remove(actor)
+                    continue
+                num_of_actors += 1
         return num_of_actors

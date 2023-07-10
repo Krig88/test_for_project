@@ -2,7 +2,7 @@ import logging
 import os
 import shutil
 from dataclasses import dataclass
-
+import for_logging.agents_statistic as a_stat
 
 @dataclass
 class LogConfig:
@@ -59,7 +59,18 @@ def setup_custom_logger(name, level, log_file):
     return logger
 
 
-def log_game_statistic(massage: str):
+def log_game_statistic(game_number: int):
     if LogConfig.statistic_logger is None:
         LogConfig.statistic_logger = setup_custom_logger('stat_log', 15, LogConfig.log_dir + '/game_statistic.log')
-    LogConfig.statistic_logger.stat_log(massage)
+    # LogConfig.statistic_logger.stat_log()
+    LogConfig.statistic_logger.stat_log(f"Game number{game_number}")
+    a_stat.update_score()
+    for counter, i in enumerate(a_stat.agents_statistic_folder):
+        stat = a_stat.agents_statistic_folder[i]
+        LogConfig.statistic_logger.stat_log(f"cats: {stat.cats}")
+        LogConfig.statistic_logger.stat_log(f"dogs: {stat.dogs}")
+        LogConfig.statistic_logger.stat_log(f"skips: {stat.skips}")
+        LogConfig.statistic_logger.stat_log(f"agent{counter} score:{stat.score}")
+        LogConfig.statistic_logger.stat_log(f"steps:{stat.steps}")
+        LogConfig.statistic_logger.stat_log("------------------------------")
+    a_stat.agents_statistic_folder.clear()
