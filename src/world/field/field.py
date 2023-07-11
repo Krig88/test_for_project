@@ -41,3 +41,11 @@ class Field:
         if cell.passable and (cell.actor is None):
             return True
         return False
+
+    def move_actor(self, cur_pos: Coordinates, destination_pos: Coordinates) -> None:
+        # from -> to
+        pos_cell, destination_cell = self.get_cell_at(cur_pos), self.get_cell_at(destination_pos)
+        destination_cell.actor, pos_cell.actor = pos_cell.actor, None
+        self.actors[destination_cell.actor] = destination_pos
+        logging.info("actor %s moved from %s to %s", destination_cell.actor, cur_pos, destination_pos)
+

@@ -1,5 +1,6 @@
 import logging
 from enum import Enum
+import random
 
 import for_logging.agents_statistic as agents_statistic
 from src.configurations.game_config import GameConfig as Conf
@@ -85,7 +86,6 @@ class Environment:
         logging.info("interacting %s to %s", interacting_actor, actor)
         if not isinstance(actor, Player):
             raise ValueError
-        # unhardcoded
         # TODO: add hooks to change interaction to environment
         if isinstance(interacting_actor, Cat):
             actor.reward = self.cat_reward
@@ -95,6 +95,48 @@ class Environment:
             actor.reward = self.dog_reward
             agents_statistic.get_statistic(actor).dogs += 1
             return
+
+    def random_respawn(self, actor: Actor) -> None:
+        if not actor:
+            return
+        clear_cells = []
+        for i in range(0, self.field.size.y):
+            for j in range(0, self.field.size.x):
+                if self.field.is_clear(Coordinates(j, i)) and self.is_in_area(type(actor), Coordinates(j, i)):
+                    clear_cells.append(Coordinates(j, i))
+        cell_cords = clear_cells[random.randint(0, len(clear_cells) - 1)]
+        self.field.place_actor(actor, cell_cords)
+        logging.info("actor %s respawned at %s", actor, cell_cords)
+
+    def move_actor(self, actor: Actor, direction: Coordinates) -> None:
+        position = self.field.actors[actor]
+        position_cell = self.field.get_cell_at(position)
+        if not self.is_move_valid(actor, position, direction):
+            logging.debug("move from %s with direction %s is not valid", position, direction)
+            if isinstance(actor, Player):
+                actor.reward += Conf.skip_reward
+                agents_statistic.agents_statistic_folder[actor].skips += 1
+            return
+        _, destination = self.topology_function(self, position, direction)
+        destination_cell = self.field.get_cell_at(destination)
+        eaten_actor = None
+
+        # TODO remove this try(make it by case)
+
+        if destination_cell.actor is not None:
+            try:
+                self.actors_interact(destination_cell.actor, position_cell.actor)
+                self.field.actors[destination_cell.actor] = None
+                eaten_actor = destination_cell.actor
+                logging.info("actor %s interacted with %s", actor, destination_cell.actor)
+            except ValueError:
+                return
+            except AttributeError:
+                logging.debug("none interacting")
+                return
+
+        self.field.move_actor(position, destination)
+        self.random_respawn(eaten_actor)
 
 
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
@@ -110,3 +152,5 @@ def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tu
     if coordinates.y == env.field.size.y - 1 and direction == Coordinates(0, 1):
         result = False
     return result, coordinates + direction
+
+

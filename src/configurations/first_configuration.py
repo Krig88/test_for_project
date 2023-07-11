@@ -1,6 +1,7 @@
 import for_logging.agents_statistic as agents_statistic
 from src.environment import tf, Environment, Connectedness
 from src.world.actors.cat import Cat
+from src.world.actors.controller.keyboard_controller import KeyboardController
 from src.world.actors.controller.agent_controller import AgentController
 from src.world.actors.controller.random_contoller import RandomController
 from src.world.actors.dog import Dog
@@ -28,7 +29,7 @@ def configurate() -> Game:
                 (player1, Coordinates(1, 1)),
                 # (player2, Coordinates(4, 2)),
                 (cat1, Coordinates(0, 0)),
-                # (dog, Coordinates(0, 1)),
+                (dog, Coordinates(0, 3)),
                 (dog2, Coordinates(0, 1)),
                 (cat2, Coordinates(0, 2)),
             )
@@ -37,5 +38,5 @@ def configurate() -> Game:
 
     agents_statistic.add_agent_to_folder(player1)
     # AgentController(field, [player1], env)
-    game = Game(field, [AgentController(field, [player1], env), RandomController(field, [cat1, cat2, dog2])], env)
+    game = Game(field, [KeyboardController(field, [player1], env), RandomController(field, [cat1, cat2, dog2, dog])], env)
     return game

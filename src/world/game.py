@@ -7,7 +7,6 @@ from src.world.actors.controller.abstract_controller import AbstractController
 from src.world.actors.controller.agent_controller import AgentController
 from src.world.actors.player import Player
 from src.world.coordinates import Coordinates
-from src.world.env_events.actor_mover import ActorMover
 from src.world.field.field import Field
 from src.world.field.views.full_field_view import FullFieldView
 
@@ -16,7 +15,6 @@ class Game:
     def __init__(self, field: Field, actor_controllers: list[AbstractController], env: Environment):
         self.field = field
         self.actor_controllers = actor_controllers
-        self.actor_mover = ActorMover(field, env)
         self.env = env
         self.steps = 0
         self.agents_controllers: list[AgentController] = [
@@ -32,6 +30,7 @@ class Game:
             raise ValueError("No Controllers")
 
         for j in range(iterations):
+
             if Conf.mortality:
                 if not self.clear_dead():
                     break
@@ -45,14 +44,13 @@ class Game:
             logging.debug("Started %s game iteration", j)
             for controller in self.actor_controllers:
                 decisions = controller.make_decision()
-                for i in decisions:
-                    self.actor_mover.move_actor(i[0], i[1])
+                for actor, coordinates in decisions:
+                    self.env.move_actor(actor, coordinates)
 
             for controller in self.agents_controllers:
                 controller.collect_reward()
                 if j % Conf.steps_to_update_model == 0:
                     controller.update_model()
-
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))
 
     def clear_dead(self) -> int:

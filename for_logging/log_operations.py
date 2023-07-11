@@ -66,7 +66,6 @@ def setup_custom_logger(name, level, log_file):
 def log_game_statistic(game_number: int):
     if LogConfig.statistic_logger is None:
         LogConfig.statistic_logger = setup_custom_logger('stat_log', 15, LogConfig.log_dir + '/game_statistic.log')
-    # LogConfig.statistic_logger.stat_log()
     LogConfig.statistic_logger.stat_log(f"Game number{game_number}")
     a_stat.update_score()
     for counter, i in enumerate(a_stat.agents_statistic_folder):
