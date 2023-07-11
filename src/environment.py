@@ -5,8 +5,8 @@ import random
 import for_logging.agents_statistic as agents_statistic
 from src.configurations.game_config import GameConfig as Conf
 from src.world.actors.actor import Actor
-from src.world.actors.cat import Cat
-from src.world.actors.dog import Dog
+from src.world.actors.cat import Cat as Cat
+from src.world.actors.dog import Dog as Dog
 from src.world.actors.player import Player
 from src.world.coordinates import Coordinates
 from src.world.field.field import Field
@@ -96,9 +96,21 @@ class Environment:
             agents_statistic.get_statistic(actor).dogs += 1
             return
 
+    def interact_with_player(self, interacting_actor: Actor, player: Player) -> Actor|None:
+        match interacting_actor:
+            case Cat():
+                player.reward = self.cat_reward
+                agents_statistic.get_statistic(player).cats += 1
+
+                return interacting_actor
+            case Dog():
+                player.reward = self.dog_reward
+                agents_statistic.get_statistic(player).dogs += 1
+                return interacting_actor
+            case _:
+                return None
+
     def random_respawn(self, actor: Actor) -> None:
-        if not actor:
-            return
         clear_cells = []
         for i in range(0, self.field.size.y):
             for j in range(0, self.field.size.x):
@@ -124,19 +136,17 @@ class Environment:
         # TODO remove this try(make it by case)
 
         if destination_cell.actor is not None:
-            try:
-                self.actors_interact(destination_cell.actor, position_cell.actor)
-                self.field.actors[destination_cell.actor] = None
-                eaten_actor = destination_cell.actor
-                logging.info("actor %s interacted with %s", actor, destination_cell.actor)
-            except ValueError:
-                return
-            except AttributeError:
-                logging.debug("none interacting")
-                return
+            match  actor:
+                case Player():
+                    eaten_actor = self.interact_with_player(destination_cell.actor, actor)
+                case _:
+                    return
 
         self.field.move_actor(position, destination)
-        self.random_respawn(eaten_actor)
+
+        if eaten_actor is not None:
+            self.field.actors.pop(eaten_actor)
+            self.random_respawn(eaten_actor)
 
 
 def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tuple[bool, Coordinates]:
