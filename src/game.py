@@ -1,7 +1,7 @@
 import logging
 
 import for_logging.agents_statistic as a_stat
-from src.configurations.game_config import GameConfig as Conf
+from src.configuration.game_config import GameConfig as Conf
 from src.environment import Environment
 from src.world.actors.controller.abstract_controller import AbstractController
 from src.world.actors.controller.agent_controller import AgentController
@@ -48,7 +48,6 @@ class Game:
                     self.env.move_actor(actor, coordinates)
 
             for controller in self.agents_controllers:
-                controller.collect_reward()
                 if j % Conf.steps_to_update_model == 0:
                     controller.update_model()
         logging.info("field is \n%s", debug_view.get_view(Coordinates(0, 0)))

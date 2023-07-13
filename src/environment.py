@@ -3,7 +3,7 @@ from enum import Enum
 import random
 
 import for_logging.agents_statistic as agents_statistic
-from src.configurations.game_config import GameConfig as Conf
+from src.configuration.game_config import GameConfig as Conf
 from src.world.actors.actor import Actor
 from src.world.actors.cat import Cat as Cat
 from src.world.actors.dog import Dog as Dog
@@ -32,7 +32,6 @@ class Environment:
     def register_area(self, actor_type: type, area: tuple[Coordinates, Coordinates], set_to: bool = True) -> None:
         """edit area for actor_type on field.\n
         if not created, create it and fill as `default`"""
-        # TODO: raise errors
         from_coordinates = area[0]
         to_coordinates = area[1]
         if actor_type not in self.areas.keys():
@@ -42,7 +41,6 @@ class Environment:
                 self.areas[actor_type][i][j] = set_to
 
     def set_area(self, actor_type: type, area: list[list[bool]]):
-        # TODO: raise errors
         self.areas[actor_type] = area
 
     def is_in_area(self, actor_type: type, coordinates: Coordinates) -> bool:
@@ -82,33 +80,18 @@ class Environment:
             near_cells[i] = coordinates + direction
         return near_cells
 
-    def actors_interact(self, interacting_actor: Actor, actor: Actor | None):
-        logging.info("interacting %s to %s", interacting_actor, actor)
-        if not isinstance(actor, Player):
-            raise ValueError
-        # TODO: add hooks to change interaction to environment
-        if isinstance(interacting_actor, Cat):
-            actor.reward = self.cat_reward
-            agents_statistic.get_statistic(actor).cats += 1
-            return
-        if isinstance(interacting_actor, Dog):
-            actor.reward = self.dog_reward
-            agents_statistic.get_statistic(actor).dogs += 1
-            return
-
-    def interact_with_player(self, interacting_actor: Actor, player: Player) -> Actor|None:
+    def interact_with_player(self, interacting_actor: Actor, player: Player) -> Actor | None:
         match interacting_actor:
             case Cat():
                 player.reward = self.cat_reward
                 agents_statistic.get_statistic(player).cats += 1
-
-                return interacting_actor
             case Dog():
                 player.reward = self.dog_reward
                 agents_statistic.get_statistic(player).dogs += 1
-                return interacting_actor
             case _:
                 return None
+        logging.info("%s interacted with %s (%s)", player, interacting_actor, self.field.actors[interacting_actor])
+        return interacting_actor
 
     def random_respawn(self, actor: Actor) -> None:
         clear_cells = []
@@ -128,15 +111,13 @@ class Environment:
             if isinstance(actor, Player):
                 actor.reward += Conf.skip_reward
                 agents_statistic.agents_statistic_folder[actor].skips += 1
+                logging.info("%s (%s) skipped turn direction was %s", actor, self.field.actors[actor], direction)
             return
         _, destination = self.topology_function(self, position, direction)
         destination_cell = self.field.get_cell_at(destination)
         eaten_actor = None
-
-        # TODO remove this try(make it by case)
-
         if destination_cell.actor is not None:
-            match  actor:
+            match actor:
                 case Player():
                     eaten_actor = self.interact_with_player(destination_cell.actor, actor)
                 case _:
@@ -161,6 +142,21 @@ def tf(env: Environment, coordinates: Coordinates, direction: Coordinates) -> tu
         result = False
     if coordinates.y == env.field.size.y - 1 and direction == Coordinates(0, 1):
         result = False
+
+    if coordinates.x == 0 and direction == Coordinates(-1, 1):
+        result = False
+    if coordinates.x == env.field.size.x - 1 and direction == Coordinates(1, 1):
+        result = False
+    if coordinates.y == 0 and direction == Coordinates(1, -1):
+        result = False
+    if coordinates.y == env.field.size.y - 1 and direction == Coordinates(1, 1):
+        result = False
+    if coordinates.x == 0 and direction == Coordinates(-1, -1):
+        result = False
+    if coordinates.x == env.field.size.x - 1 and direction == Coordinates(1, -1):
+        result = False
+    if coordinates.y == 0 and direction == Coordinates(-1, -1):
+        result = False
+    if coordinates.y == env.field.size.y - 1 and direction == Coordinates(-1, 1):
+        result = False
     return result, coordinates + direction
-
-

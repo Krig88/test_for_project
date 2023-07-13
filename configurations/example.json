@@ -1,0 +1,26 @@
+{
+  "Environment": {
+    "Connectedness": 4,
+    "topology_function": ""
+  },
+  "Field": {
+    "size": [4,4],
+    "walls": {
+      "coordinates": [
+        [0,0],
+        [1,1]
+      ]
+    }
+  },
+  "controllers": [
+    {"AgentController": [
+      {"Player": [2, 2]}
+    ]},
+    {"RandomController": [
+      {"Cat": [1, 2]},
+      {"Dog": [2, 1]},
+      {"Cat": [3, 2]},
+      {"Dog": [2, 3]}
+    ]}
+  ]
+}

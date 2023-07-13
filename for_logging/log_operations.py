@@ -22,6 +22,7 @@ def log_init(log_dir: str = "logs"):
         os.makedirs(log_dir)
 
     logging.basicConfig(level=logging.INFO, filename=log_dir + '/game0.log', filemode='w')
+    LogConfig.cur_handler = logging.getLogger().handlers[0]
     LogConfig.statistic_logger = setup_custom_logger('stat_log', 15, log_dir + '/game_statistic.log')
 
 

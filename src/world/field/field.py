@@ -49,3 +49,6 @@ class Field:
         self.actors[destination_cell.actor] = destination_pos
         logging.info("actor %s moved from %s to %s", destination_cell.actor, cur_pos, destination_pos)
 
+    def clear(self, cells):
+        self.cells = cells
+        self.actors = dict()

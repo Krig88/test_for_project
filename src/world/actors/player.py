@@ -1,4 +1,4 @@
-from src.configurations.game_config import GameConfig as Conf
+from src.configuration.game_config import GameConfig as Conf
 from src.world.actors.actor import Actor
 
 

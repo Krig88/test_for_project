@@ -4,8 +4,8 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class GameConfig:
     # Game settings
-    num_of_games: int = 1  # number of games to be played
-    iterations: int = 100000  # count of steps in game
+    num_of_games: int = 2  # number of games to be played
+    iterations: int = 10000  # count of steps in game
     mortality: bool = False  # Agents death possibility
 
     # Rewards settings
